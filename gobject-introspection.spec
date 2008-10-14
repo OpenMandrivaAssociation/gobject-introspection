@@ -39,7 +39,7 @@ Group: Development/C
 Summary: GObject Introspection development libraries
 Requires: %libname = %version-%release
 Requires: %name = %version-%release
-Provides: libgirepository-devel = %version-%releas
+Provides: libgirepository-devel = %version-%release
 Provides: %name-devel = %version-%release
 %description -n %develname
 The goal of the project is to describe the APIs and  collect them in
