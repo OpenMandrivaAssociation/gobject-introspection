@@ -1,5 +1,5 @@
 %define name gobject-introspection
-%define version 0.6.0
+%define version 0.6.1
 %define release %mkrel 1
 
 %define major 0
@@ -12,7 +12,7 @@ Summary: GObject Introspection
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Source0: http://download.gnome.org/sources/%name/%{name}-%{version}.tar.bz2
+Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
@@ -80,6 +80,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README NEWS TODO AUTHORS
 %_bindir/g-ir-*
+%_bindir/barapp
 %py_platsitedir/giscanner
 %_datadir/gir
 %_libdir/girepository
