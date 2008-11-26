@@ -59,6 +59,8 @@ a uniform, machine readable format.
 
 %build
 %configure2_5x --disable-static
+#make it find libtool
+export PATH=$(pwd):$PATH
 #gw r703 parallel build broken
 make
 
