@@ -1,6 +1,6 @@
 %define name gobject-introspection
 %define version 0.6.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname girepository %major
@@ -13,6 +13,7 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
+Patch0: gobject-introspection-0.6.1-fix-str-fmt.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
@@ -56,13 +57,11 @@ a uniform, machine readable format.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 %configure2_5x --disable-static
-#make it find libtool
-export PATH=$(pwd):$PATH
-#gw r703 parallel build broken
-make
+%make
 
 %install
 rm -rf %{buildroot}
