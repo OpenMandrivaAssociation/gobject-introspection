@@ -24,6 +24,7 @@ BuildRequires: ffi5-devel
 BuildRequires: python-devel
 BuildRequires: flex bison
 BuildRequires: gnome-common
+BuildRequires: libtool
 
 %description
 The goal of the project is to describe the APIs and  collect them in
