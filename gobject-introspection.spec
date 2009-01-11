@@ -1,6 +1,6 @@
 %define name gobject-introspection
 %define version 0.6.1
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define libname %mklibname girepository %major
@@ -14,6 +14,7 @@ Version: %{version}
 Release: %{release}
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 Patch0: gobject-introspection-0.6.1-fix-str-fmt.patch
+Patch1: gobject-introspection-0.6.1-link-module.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
@@ -58,6 +59,7 @@ a uniform, machine readable format.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p0
 
 %build
 %configure2_5x --disable-static
