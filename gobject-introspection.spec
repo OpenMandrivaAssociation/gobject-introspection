@@ -1,11 +1,12 @@
 %define name gobject-introspection
-%define version 0.6.1
-%define release %mkrel 3
+%define version 0.6.2
+%define release %mkrel 1
 
+%define api 1.0
 %define major 0
-%define libname %mklibname girepository %major
+%define libname %mklibname girepository %api %major
 %define everythingmajor 1
-%define everythinglibname %mklibname girepository-everything %everythingmajor
+%define everythinglibname %mklibname girepository-everything %api %everythingmajor
 %define develname %mklibname -d girepository
 
 Summary: GObject Introspection
@@ -84,26 +85,25 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README NEWS TODO AUTHORS
 %_bindir/g-ir-*
-%_bindir/barapp
 %py_platsitedir/giscanner
-%_datadir/gir
-%_libdir/girepository
+%_libdir/girepository-%api
+%_datadir/gir-%api
 %_mandir/man1/*
 
 %files -n %libname
 %defattr(-,root,root)
-%_libdir/libgirepository.so.%{major}*
+%_libdir/libgirepository-%api.so.%{major}*
 
 %files -n %everythinglibname
 %defattr(-,root,root)
-%_libdir/libgirepository-everything.so.%{everythingmajor}*
+%_libdir/libgirepository-everything-%api.so.%{everythingmajor}*
 
 %files -n %develname
 %defattr(-,root,root)
 %doc ChangeLog
-%_libdir/libgirepository.so
-%_libdir/libgirepository-everything.so
+%_libdir/libgirepository-%api.so
+%_libdir/libgirepository-everything-%api.so
 %_libdir/libgirepository*a
-%_libdir/pkgconfig/gobject-introspection-1.0.pc
-%_includedir/%name-1.0
+%_libdir/pkgconfig/gobject-introspection-%api.pc
+%_includedir/%name-%api
 
