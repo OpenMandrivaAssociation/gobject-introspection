@@ -23,7 +23,10 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: glib2-devel
 BuildRequires: ffi5-devel
 BuildRequires: python-devel
-BuildRequires: freetype2-devel cairo-devel fontconfig-devel
+BuildRequires: freetype2-devel 
+BuildRequires: cairo-devel
+BuildRequires: fontconfig-devel
+BuildRequires: GL-devel
 BuildRequires: flex bison
 BuildRequires: gnome-common
 BuildRequires: libtool
