@@ -27,6 +27,7 @@ BuildRequires: freetype2-devel
 BuildRequires: cairo-devel
 BuildRequires: fontconfig-devel
 BuildRequires: GL-devel
+BuildRequires: libxft-devel
 BuildRequires: flex bison
 BuildRequires: gnome-common
 BuildRequires: libtool
