@@ -40,6 +40,7 @@ BuildRequires: libxft-devel
 BuildRequires: flex bison
 BuildRequires: gnome-common
 BuildRequires: libtool
+BuildRequires: gtk-doc
 
 %description
 The goal of the project is to describe the APIs and  collect them in
