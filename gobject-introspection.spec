@@ -1,6 +1,12 @@
 %define name gobject-introspection
-%define version 0.6.2
+%define version 0.6.3
+%define git 20090518
+%if %git
+%define release %mkrel 0.%git.1
+%else
 %define release %mkrel 1
+%endif
+
 
 %define api 1.0
 %define major 0
@@ -13,9 +19,12 @@ Summary: GObject Introspection
 Name: %{name}
 Version: %{version}
 Release: %{release}
+%if %git
+Source0:       %{name}-%{git}.tar.bz2
+%else
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
-Patch0: gobject-introspection-0.6.1-fix-str-fmt.patch
-Patch1: gobject-introspection-0.6.1-link-module.patch
+%endif
+Patch1: gobject-introspection-link-module.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
@@ -64,11 +73,20 @@ The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
 %prep
+%if %git
+%setup -q -n %name
+./autogen.sh -V
+%else
 %setup -q
-%patch0 -p0
-%patch1 -p0
+%endif
+%patch1 -p1 -b .link-module
+
+%if %git
+./autogen.sh -V
+%endif
 
 %build
+%define _disable_ld_no_undefined 1
 %configure2_5x --disable-static
 %make
 
@@ -90,7 +108,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README NEWS TODO AUTHORS
 %_bindir/g-ir-*
-%py_platsitedir/giscanner
+%_libdir/%name
 %_libdir/girepository-%api
 %_datadir/gir-%api
 %_mandir/man1/*
@@ -111,4 +129,4 @@ rm -rf %{buildroot}
 %_libdir/libgirepository*a
 %_libdir/pkgconfig/gobject-introspection-%api.pc
 %_includedir/%name-%api
-
+%_datadir/aclocal/*.m4
