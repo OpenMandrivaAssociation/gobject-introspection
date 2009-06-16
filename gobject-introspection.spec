@@ -29,6 +29,8 @@ License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+#gw bootstrap problem, it needs some gir files
+BuildRequires: gobject-introspection-devel
 BuildRequires: glib2-devel
 BuildRequires: ffi5-devel
 BuildRequires: python-devel
@@ -110,8 +112,37 @@ rm -rf %{buildroot}
 %doc README NEWS TODO AUTHORS
 %_bindir/g-ir-*
 %_libdir/%name
-%_libdir/girepository-%api
-%_datadir/gir-%api
+%dir %_libdir/girepository-%api
+%_libdir/girepository-%api/Everything-1.0.typelib
+%_libdir/girepository-%api/GIRepository-2.0.typelib
+%_libdir/girepository-%api/GL-1.0.typelib
+%_libdir/girepository-%api/GLib-2.0.typelib
+%_libdir/girepository-%api/GModule-2.0.typelib
+%_libdir/girepository-%api/GObject-2.0.typelib
+%_libdir/girepository-%api/Gio-2.0.typelib
+%_libdir/girepository-%api/cairo-1.0.typelib
+%_libdir/girepository-%api/fontconfig-2.0.typelib
+%_libdir/girepository-%api/freetype2-2.0.typelib
+%_libdir/girepository-%api/libxml2-2.0.typelib
+%_libdir/girepository-%api/xfixes-4.0.typelib
+%_libdir/girepository-%api/xft-2.0.typelib
+%_libdir/girepository-%api/xlib-2.0.typelib
+%dir %_datadir/gir-%api
+%_datadir/gir-%api/Everything-1.0.gir
+%_datadir/gir-%api/GIRepository-2.0.gir
+%_datadir/gir-%api/GL-1.0.gir
+%_datadir/gir-%api/GLib-2.0.gir
+%_datadir/gir-%api/GModule-2.0.gir
+%_datadir/gir-%api/GObject-2.0.gir
+%_datadir/gir-%api/Gio-2.0.gir
+%_datadir/gir-%api/cairo-1.0.gir
+%_datadir/gir-%api/fontconfig-2.0.gir
+%_datadir/gir-%api/freetype2-2.0.gir
+%_datadir/gir-%api/libxml2-2.0.gir
+%_datadir/gir-%api/xfixes-4.0.gir
+%_datadir/gir-%api/xft-2.0.gir
+%_datadir/gir-%api/xlib-2.0.gir
+
 %_mandir/man1/*
 
 %files -n %libname
