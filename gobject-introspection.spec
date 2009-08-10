@@ -4,7 +4,7 @@
 %if %git
 %define release %mkrel 0.%git.1
 %else
-%define release %mkrel 1
+%define release %mkrel 2
 %endif
 
 
@@ -43,6 +43,8 @@ BuildRequires: flex bison
 BuildRequires: gnome-common
 BuildRequires: libtool
 BuildRequires: gtk-doc
+#gw /usr/bin/libtool is called in giscanner
+Requires: libtool
 
 %description
 The goal of the project is to describe the APIs and  collect them in
