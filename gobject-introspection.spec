@@ -100,6 +100,10 @@ a uniform, machine readable format.
 rm -rf %{buildroot}
 %makeinstall_std
 
+%check
+#gw broken in 20090817 snapshot
+#make check
+
 %clean
 rm -rf %{buildroot}
 
