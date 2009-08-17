@@ -1,10 +1,10 @@
 %define name gobject-introspection
-%define version 0.6.3
-%define git 0
+%define version 0.6.4
+%define git 20090817
 %if %git
 %define release %mkrel 0.%git.1
 %else
-%define release %mkrel 2
+%define release %mkrel 1
 %endif
 
 
@@ -90,6 +90,7 @@ a uniform, machine readable format.
 ./autogen.sh -V
 %endif
 
+
 %build
 %define _disable_ld_no_undefined 1
 %configure2_5x --disable-static
@@ -162,5 +163,6 @@ rm -rf %{buildroot}
 %_libdir/libgirepository-everything-%api.so
 %_libdir/libgirepository*a
 %_libdir/pkgconfig/gobject-introspection-%api.pc
+%_libdir/pkgconfig/gobject-introspection-no-export-%api.pc
 %_includedir/%name-%api
 %_datadir/aclocal/*.m4
