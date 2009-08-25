@@ -1,6 +1,6 @@
 %define name gobject-introspection
 %define version 0.6.4
-%define git 20090817
+%define git 0
 %if %git
 %define release %mkrel 0.%git.1
 %else
@@ -29,8 +29,6 @@ License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-#gw bootstrap problem, it needs some gir files
-BuildRequires: gobject-introspection-devel
 BuildRequires: glib2-devel
 BuildRequires: ffi5-devel
 BuildRequires: python-devel
@@ -101,8 +99,7 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 %check
-#gw broken in 20090817 snapshot
-#make check
+make check
 
 %clean
 rm -rf %{buildroot}
