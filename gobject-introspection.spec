@@ -1,5 +1,5 @@
 %define name gobject-introspection
-%define version 0.6.5
+%define version 0.6.6
 %define git 0
 %if %git
 %define release %mkrel 1
