@@ -1,5 +1,5 @@
 %define name gobject-introspection
-%define version 0.6.6
+%define version 0.6.7
 %define git 0
 %if %git
 %define release %mkrel 1
@@ -24,8 +24,6 @@ Source0:       %{name}-%{git}.tar.bz2
 %else
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 %endif
-# https://bugzilla.gnome.org/show_bug.cgi?id=604074
-Patch: gobject-introspection-girffi-clean-up-api.patch
 Patch1: gobject-introspection-link-module.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
@@ -84,7 +82,6 @@ a uniform, machine readable format.
 %else
 %setup -q
 %endif
-%patch -p1
 %patch1 -p1 -b .link-module
 autoreconf -fi
 
@@ -171,3 +168,4 @@ rm -rf %{buildroot}
 %_libdir/pkgconfig/gobject-introspection-no-export-%api.pc
 %_includedir/%name-%api
 %_datadir/aclocal/*.m4
+%_datadir/%name-%api
