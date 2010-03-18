@@ -4,7 +4,7 @@
 %if %git
 %define release %mkrel 1
 %else
-%define release %mkrel 1
+%define release %mkrel 2
 %endif
 
 
@@ -51,6 +51,8 @@ a uniform, machine readable format.
 %package -n %libname
 Group: System/Libraries
 Summary: GObject Introspection shared library
+Conflicts: %name < 0.6.8-2mdv
+
 %description -n %libname
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
@@ -117,21 +119,6 @@ rm -rf %{buildroot}
 %doc README NEWS TODO AUTHORS
 %_bindir/g-ir-*
 %_libdir/%name
-%dir %_libdir/girepository-%api
-%_libdir/girepository-%api/Everything-1.0.typelib
-%_libdir/girepository-%api/GIRepository-2.0.typelib
-%_libdir/girepository-%api/GL-1.0.typelib
-%_libdir/girepository-%api/GLib-2.0.typelib
-%_libdir/girepository-%api/GModule-2.0.typelib
-%_libdir/girepository-%api/GObject-2.0.typelib
-%_libdir/girepository-%api/Gio-2.0.typelib
-%_libdir/girepository-%api/cairo-1.0.typelib
-%_libdir/girepository-%api/fontconfig-2.0.typelib
-%_libdir/girepository-%api/freetype2-2.0.typelib
-%_libdir/girepository-%api/libxml2-2.0.typelib
-%_libdir/girepository-%api/xfixes-4.0.typelib
-%_libdir/girepository-%api/xft-2.0.typelib
-%_libdir/girepository-%api/xlib-2.0.typelib
 %dir %_datadir/gir-%api
 %_datadir/gir-%api/Everything-1.0.gir
 %_datadir/gir-%api/GIRepository-2.0.gir
@@ -153,6 +140,21 @@ rm -rf %{buildroot}
 %files -n %libname
 %defattr(-,root,root)
 %_libdir/libgirepository-%api.so.%{major}*
+%dir %_libdir/girepository-%api
+%_libdir/girepository-%api/Everything-1.0.typelib
+%_libdir/girepository-%api/GIRepository-2.0.typelib
+%_libdir/girepository-%api/GL-1.0.typelib
+%_libdir/girepository-%api/GLib-2.0.typelib
+%_libdir/girepository-%api/GModule-2.0.typelib
+%_libdir/girepository-%api/GObject-2.0.typelib
+%_libdir/girepository-%api/Gio-2.0.typelib
+%_libdir/girepository-%api/cairo-1.0.typelib
+%_libdir/girepository-%api/fontconfig-2.0.typelib
+%_libdir/girepository-%api/freetype2-2.0.typelib
+%_libdir/girepository-%api/libxml2-2.0.typelib
+%_libdir/girepository-%api/xfixes-4.0.typelib
+%_libdir/girepository-%api/xft-2.0.typelib
+%_libdir/girepository-%api/xlib-2.0.typelib
 
 %files -n %everythinglibname
 %defattr(-,root,root)
