@@ -1,5 +1,5 @@
 %define name gobject-introspection
-%define version 0.6.9
+%define version 0.6.10
 %define git 0
 %if %git
 %define release %mkrel 1
@@ -142,6 +142,7 @@ rm -rf %{buildroot}
 %_libdir/libgirepository-%api.so.%{major}*
 %dir %_libdir/girepository-%api
 %_libdir/girepository-%api/Everything-1.0.typelib
+%_libdir/girepository-%api/GIMarshallingTests-%api.typelib
 %_libdir/girepository-%api/GIRepository-2.0.typelib
 %_libdir/girepository-%api/GL-1.0.typelib
 %_libdir/girepository-%api/GLib-2.0.typelib
@@ -159,15 +160,18 @@ rm -rf %{buildroot}
 %files -n %everythinglibname
 %defattr(-,root,root)
 %_libdir/libgirepository-everything-%api.so.%{everythingmajor}*
+%_libdir/libgirepository-gimarshallingtests-%api.so.%{everythingmajor}*
 
 %files -n %develname
 %defattr(-,root,root)
 %doc ChangeLog
 %_libdir/libgirepository-%api.so
 %_libdir/libgirepository-everything-%api.so
+%_libdir/libgirepository-gimarshallingtests-%api.so
 %_libdir/libgirepository*a
 %_libdir/pkgconfig/gobject-introspection-%api.pc
 %_libdir/pkgconfig/gobject-introspection-no-export-%api.pc
 %_includedir/%name-%api
 %_datadir/aclocal/*.m4
 %_datadir/%name-%api
+%_datadir/gir-%api/GIMarshallingTests-%api.gir
