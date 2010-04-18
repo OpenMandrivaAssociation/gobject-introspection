@@ -29,6 +29,9 @@ License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+#gw TODO, remove this once the bug was resolved
+#
+BuildRequires: gobject-introspection
 BuildRequires: glib2-devel
 BuildRequires: ffi5-devel
 BuildRequires: python-devel
