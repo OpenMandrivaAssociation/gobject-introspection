@@ -30,7 +30,7 @@ Group: Development/C
 Url: http://www.gnome.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 #gw TODO, remove this once the bug was resolved
-#
+# https://bugzilla.gnome.org/show_bug.cgi?id=616126
 BuildRequires: gobject-introspection
 BuildRequires: glib2-devel
 BuildRequires: ffi5-devel
