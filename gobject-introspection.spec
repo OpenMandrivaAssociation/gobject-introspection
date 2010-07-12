@@ -4,7 +4,7 @@
 %if %git
 %define release %mkrel 1
 %else
-%define release %mkrel 4
+%define release %mkrel 5
 %endif
 
 
@@ -44,8 +44,7 @@ BuildRequires: flex bison
 BuildRequires: gnome-common
 BuildRequires: libtool
 BuildRequires: gtk-doc
-#gw /usr/bin/libtool is called in giscanner
-Requires: libtool
+Conflicts: %{mklibname girepository 1.0 0} < 0.6.10-5mdv
 
 %description
 The goal of the project is to describe the APIs and  collect them in
@@ -55,6 +54,7 @@ a uniform, machine readable format.
 Group: System/Libraries
 Summary: GObject Introspection shared library
 Conflicts: %name < 0.6.8-2mdv
+Requires: %name >= %version
 
 %description -n %libname
 The goal of the project is to describe the APIs and  collect them in
@@ -73,9 +73,11 @@ Group: Development/C
 Summary: GObject Introspection development libraries
 Requires: %libname = %version-%release
 Requires: %everythinglibname = %version-%release
-Requires: %name = %version-%release
 Provides: libgirepository-devel = %version-%release
 Provides: %name-devel = %version-%release
+#gw /usr/bin/libtool is called in giscanner
+Requires: libtool
+
 %description -n %develname
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
@@ -120,29 +122,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc README NEWS TODO AUTHORS
-%_bindir/g-ir-*
-%_libdir/%name
-%dir %_datadir/gir-%api
-%_datadir/gir-%api/Everything-1.0.gir
-%_datadir/gir-%api/GIRepository-2.0.gir
-%_datadir/gir-%api/GL-1.0.gir
-%_datadir/gir-%api/GLib-2.0.gir
-%_datadir/gir-%api/GModule-2.0.gir
-%_datadir/gir-%api/GObject-2.0.gir
-%_datadir/gir-%api/Gio-2.0.gir
-%_datadir/gir-%api/cairo-1.0.gir
-%_datadir/gir-%api/fontconfig-2.0.gir
-%_datadir/gir-%api/freetype2-2.0.gir
-%_datadir/gir-%api/libxml2-2.0.gir
-%_datadir/gir-%api/xfixes-4.0.gir
-%_datadir/gir-%api/xft-2.0.gir
-%_datadir/gir-%api/xlib-2.0.gir
-
-%_mandir/man1/*
-
-%files -n %libname
-%defattr(-,root,root)
-%_libdir/libgirepository-%api.so.%{major}*
 %dir %_libdir/girepository-%api
 %_libdir/girepository-%api/Everything-1.0.typelib
 %_libdir/girepository-%api/GIMarshallingTests-%api.typelib
@@ -159,6 +138,10 @@ rm -rf %{buildroot}
 %_libdir/girepository-%api/xfixes-4.0.typelib
 %_libdir/girepository-%api/xft-2.0.typelib
 %_libdir/girepository-%api/xlib-2.0.typelib
+
+%files -n %libname
+%defattr(-,root,root)
+%_libdir/libgirepository-%api.so.%{major}*
 
 %files -n %everythinglibname
 %defattr(-,root,root)
@@ -177,4 +160,23 @@ rm -rf %{buildroot}
 %_includedir/%name-%api
 %_datadir/aclocal/*.m4
 %_datadir/%name-%api
+%_bindir/g-ir-*
+%_libdir/%name
+%dir %_datadir/gir-%api
 %_datadir/gir-%api/GIMarshallingTests-%api.gir
+%_datadir/gir-%api/Everything-1.0.gir
+%_datadir/gir-%api/GIRepository-2.0.gir
+%_datadir/gir-%api/GL-1.0.gir
+%_datadir/gir-%api/GLib-2.0.gir
+%_datadir/gir-%api/GModule-2.0.gir
+%_datadir/gir-%api/GObject-2.0.gir
+%_datadir/gir-%api/Gio-2.0.gir
+%_datadir/gir-%api/cairo-1.0.gir
+%_datadir/gir-%api/fontconfig-2.0.gir
+%_datadir/gir-%api/freetype2-2.0.gir
+%_datadir/gir-%api/libxml2-2.0.gir
+%_datadir/gir-%api/xfixes-4.0.gir
+%_datadir/gir-%api/xft-2.0.gir
+%_datadir/gir-%api/xlib-2.0.gir
+
+%_mandir/man1/*
