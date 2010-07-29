@@ -1,15 +1,15 @@
 %define name gobject-introspection
-%define version 0.6.10
+%define version 0.9.2
 %define git 0
 %if %git
 %define release %mkrel 1
 %else
-%define release %mkrel 5
+%define release %mkrel 1
 %endif
 
 
 %define api 1.0
-%define major 0
+%define major 1
 %define libname %mklibname girepository %api %major
 %define everythingmajor 1
 %define everythinglibname %mklibname girepository-everything %api %everythingmajor
@@ -24,15 +24,11 @@ Source0:       %{name}-%{git}.tar.bz2
 %else
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 %endif
-# fix build without gobject-introspection installed
-# https://bugzilla.gnome.org/show_bug.cgi?id=616126
-Patch0: gobject-introspection-fix-build.patch
-Patch1: gobject-introspection-link-module.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: glib2-devel
+BuildRequires: glib2-devel >= 2.25.8
 BuildRequires: ffi5-devel
 BuildRequires: python-devel
 BuildRequires: freetype2-devel 
@@ -138,6 +134,7 @@ rm -rf %{buildroot}
 %_libdir/girepository-%api/xfixes-4.0.typelib
 %_libdir/girepository-%api/xft-2.0.typelib
 %_libdir/girepository-%api/xlib-2.0.typelib
+%_libdir/girepository-%api/xrandr-1.3.typelib
 
 %files -n %libname
 %defattr(-,root,root)
@@ -163,6 +160,10 @@ rm -rf %{buildroot}
 %_bindir/g-ir-*
 %_libdir/%name
 %dir %_datadir/gir-%api
+%_datadir/gtk-doc/html/gi
+%_bindir/g-ir-*
+%_libdir/%name
+%dir %_datadir/gir-%api
 %_datadir/gir-%api/GIMarshallingTests-%api.gir
 %_datadir/gir-%api/Everything-1.0.gir
 %_datadir/gir-%api/GIRepository-2.0.gir
@@ -178,5 +179,5 @@ rm -rf %{buildroot}
 %_datadir/gir-%api/xfixes-4.0.gir
 %_datadir/gir-%api/xft-2.0.gir
 %_datadir/gir-%api/xlib-2.0.gir
-
+%_datadir/gir-%api/xrandr-1.3.gir
 %_mandir/man1/*
