@@ -1,5 +1,5 @@
 %define name gobject-introspection
-%define version 0.9.2
+%define version 0.9.3
 %define git 0
 %if %git
 %define release %mkrel 1
@@ -24,6 +24,7 @@ Source0:       %{name}-%{git}.tar.bz2
 %else
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 %endif
+Patch0: gobject-introspection-0.9.3-fix-link.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
@@ -88,14 +89,8 @@ a uniform, machine readable format.
 %apply_patches
 autoreconf -fi
 
-%if %git
-./autogen.sh -V
-%endif
-
-
 %build
-%define _disable_ld_no_undefined 1
-%configure2_5x --disable-static
+%configure2_5x --disable-static --enable-gtk-doc
 %make
 
 %install
@@ -159,10 +154,7 @@ rm -rf %{buildroot}
 %_datadir/%name-%api
 %_bindir/g-ir-*
 %_libdir/%name
-%dir %_datadir/gir-%api
 %_datadir/gtk-doc/html/gi
-%_bindir/g-ir-*
-%_libdir/%name
 %dir %_datadir/gir-%api
 %_datadir/gir-%api/GIMarshallingTests-%api.gir
 %_datadir/gir-%api/Everything-1.0.gir
