@@ -1,5 +1,5 @@
 %define name gobject-introspection
-%define version 0.9.3
+%define version 0.9.5
 %define git 0
 %if %git
 %define release %mkrel 1
@@ -11,8 +11,6 @@
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %api %major
-%define everythingmajor 1
-%define everythinglibname %mklibname girepository-everything %api %everythingmajor
 %define develname %mklibname -d girepository
 
 Summary: GObject Introspection
@@ -24,7 +22,7 @@ Source0:       %{name}-%{git}.tar.bz2
 %else
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 %endif
-Patch0: gobject-introspection-0.9.3-fix-link.patch
+Patch0: gobject-introspection-0.9.5-fix-link.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
@@ -57,19 +55,11 @@ Requires: %name >= %version
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
-%package -n %everythinglibname
-Group: System/Libraries
-Summary: GObject Introspection shared library
-%description -n %everythinglibname
-The goal of the project is to describe the APIs and  collect them in
-a uniform, machine readable format.
-
 
 %package -n %develname
 Group: Development/C
 Summary: GObject Introspection development libraries
 Requires: %libname = %version-%release
-Requires: %everythinglibname = %version-%release
 Provides: libgirepository-devel = %version-%release
 Provides: %name-devel = %version-%release
 #gw /usr/bin/libtool is called in giscanner
@@ -98,24 +88,18 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 %check
-make check
+#https://bugzilla.gnome.org/show_bug.cgi?id=629339
+#make check
 
 %clean
 rm -rf %{buildroot}
-
-%if %mdvver < 200900
-%post -n %libname -p /sbin/ldconfig
-%postun -n %libname -p /sbin/ldconfig
-%post -n %everythinglibname -p /sbin/ldconfig
-%postun -n %everythinglibname -p /sbin/ldconfig
-%endif
 
 %files
 %defattr(-,root,root)
 %doc README NEWS TODO AUTHORS
 %dir %_libdir/girepository-%api
-%_libdir/girepository-%api/Everything-1.0.typelib
-%_libdir/girepository-%api/GIMarshallingTests-%api.typelib
+%_libdir/girepository-%api/DBus-1.0.typelib
+%_libdir/girepository-%api/DBusGLib-1.0.typelib
 %_libdir/girepository-%api/GIRepository-2.0.typelib
 %_libdir/girepository-%api/GL-1.0.typelib
 %_libdir/girepository-%api/GLib-2.0.typelib
@@ -135,17 +119,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %_libdir/libgirepository-%api.so.%{major}*
 
-%files -n %everythinglibname
-%defattr(-,root,root)
-%_libdir/libgirepository-everything-%api.so.%{everythingmajor}*
-%_libdir/libgirepository-gimarshallingtests-%api.so.%{everythingmajor}*
-
 %files -n %develname
 %defattr(-,root,root)
 %doc ChangeLog
 %_libdir/libgirepository-%api.so
-%_libdir/libgirepository-everything-%api.so
-%_libdir/libgirepository-gimarshallingtests-%api.so
 %_libdir/libgirepository*a
 %_libdir/pkgconfig/gobject-introspection-%api.pc
 %_libdir/pkgconfig/gobject-introspection-no-export-%api.pc
@@ -156,8 +133,8 @@ rm -rf %{buildroot}
 %_libdir/%name
 %_datadir/gtk-doc/html/gi
 %dir %_datadir/gir-%api
-%_datadir/gir-%api/GIMarshallingTests-%api.gir
-%_datadir/gir-%api/Everything-1.0.gir
+%_datadir/gir-%api/DBus-1.0.gir
+%_datadir/gir-%api/DBusGLib-1.0.gir
 %_datadir/gir-%api/GIRepository-2.0.gir
 %_datadir/gir-%api/GL-1.0.gir
 %_datadir/gir-%api/GLib-2.0.gir
