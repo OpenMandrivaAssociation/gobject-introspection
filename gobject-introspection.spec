@@ -40,6 +40,7 @@ BuildRequires: gnome-common
 BuildRequires: libtool
 BuildRequires: gtk-doc
 Conflicts: %{mklibname girepository 1.0 0} < 0.6.10-5mdv
+Conflicts: gir-repository < 0.6.5-12.20100622.3mdv
 
 %description
 The goal of the project is to describe the APIs and  collect them in
