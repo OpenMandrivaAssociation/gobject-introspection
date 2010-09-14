@@ -4,7 +4,7 @@
 %if %git
 %define release %mkrel -c %git 1
 %else
-%define release %mkrel 2
+%define release %mkrel 3
 %endif
 
 
@@ -23,6 +23,7 @@ Source0:       %{name}-%{git}.tar.bz2
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 %endif
 Patch0: gobject-introspection-0.9.5-fix-link.patch
+Patch1: gobject-introspection-readd-strip-prefix.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
