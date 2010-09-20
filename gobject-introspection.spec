@@ -94,7 +94,8 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 %check
-make check
+#gw: https://bugzilla.gnome.org/show_bug.cgi?id=630136
+#make check
 
 %clean
 rm -rf %{buildroot}
