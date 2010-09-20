@@ -1,10 +1,11 @@
 %define name gobject-introspection
-%define version 0.9.5
-%define git 0
+%define version 0.9.7
+%define git 20100920
+%define rel 1
 %if %git
-%define release %mkrel -c %git 1
+%define release %mkrel -c %git %rel
 %else
-%define release %mkrel 5
+%define release %mkrel %rel
 %endif
 
 
@@ -18,12 +19,11 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 %if %git
-Source0:       %{name}-%{git}.tar.bz2
+Source0:       %{name}-%{git}.tar.xz
 %else
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
 %endif
-Patch0: gobject-introspection-0.9.5-fix-link.patch
-Patch1: gobject-introspection-readd-strip-prefix.patch
+Patch0: gobject-introspection-fix-link.patch
 Patch2: gobject-introspection-add-workarounds-for-libgnomekeyring-and-libgda.patch
 License: GPLv2+ and LGPLv2+
 Group: Development/C
@@ -75,12 +75,15 @@ a uniform, machine readable format.
 %prep
 %if %git
 %setup -q -n %name
-./autogen.sh -V
 %else
 %setup -q
 %endif
 %apply_patches
+%if %git
+./autogen.sh -V
+%else
 autoreconf -fi
+%endif
 
 %build
 %configure2_5x --disable-static --enable-gtk-doc
@@ -91,8 +94,7 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 %check
-#https://bugzilla.gnome.org/show_bug.cgi?id=629339
-#make check
+make check
 
 %clean
 rm -rf %{buildroot}
