@@ -1,5 +1,5 @@
 %define name gobject-introspection
-%define version 0.9.7
+%define version 0.9.8
 %define git 0
 %define rel 1
 %if %git
@@ -21,7 +21,7 @@ Release: %{release}
 %if %git
 Source0:       %{name}-%{git}.tar.xz
 %else
-Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
+Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.xz
 %endif
 Patch0: gobject-introspection-fix-link.patch
 Patch2: gobject-introspection-add-workarounds-for-libgnomekeyring-and-libgda.patch
@@ -82,7 +82,8 @@ a uniform, machine readable format.
 %if %git
 ./autogen.sh -V
 %else
-autoreconf -fi
+#autoreconf -fi
+./autogen.sh -V
 %endif
 
 %build
