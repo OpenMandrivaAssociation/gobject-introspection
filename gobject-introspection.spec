@@ -1,156 +1,113 @@
-%define name gobject-introspection
-%define version 0.10.8
-%define git 0
-%define rel 1
-%if %git
-%define release %mkrel -c %git %rel
-%else
-%define release %mkrel %rel
-%endif
-
-
 %define api 1.0
 %define major 1
-%define libname %mklibname girepository %api %major
+%define libname %mklibname girepository %{api} %major
 %define develname %mklibname -d girepository
 
 Summary: GObject Introspection
-Name: %{name}
-Version: %{version}
-Release: %{release}
-%if %git
-Source0:       %{name}-%{git}.tar.xz
-%else
-Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
-%endif
-Patch0: gobject-introspection-fix-link.patch
+Name: gobject-introspection
+Version: 1.30.0
+Release: 1
 License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: glib2-devel >= 2.25.8
-BuildRequires: ffi5-devel
-BuildRequires: python-devel
-BuildRequires: freetype2-devel 
-BuildRequires: cairo-devel
-BuildRequires: fontconfig-devel
-BuildRequires: GL-devel
-BuildRequires: libxft-devel
-BuildRequires: flex bison
-BuildRequires: gnome-common
-BuildRequires: libtool
-BuildRequires: gtk-doc
-Conflicts: %{mklibname girepository 1.0 0} < 0.6.10-5mdv
-Conflicts: gir-repository < 0.6.5-12.20100622.3mdv
+Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.xz
+Patch0: gobject-introspection-fix-link.patch
+
+BuildRequires:	bison
+BuildRequires:	flex
+BuildRequires:	gnome-common
+BuildRequires:	libtool
+BuildRequires:	pkgconfig(cairo)
+BuildRequires:	pkgconfig(cairo-gobject)
+BuildRequires:	pkgconfig(gio-2.0)
+BuildRequires:	pkgconfig(gio-unix-2.0)
+BuildRequires:	pkgconfig(glib-2.0) >= 2.29.7
+BuildRequires:	pkgconfig(gmodule-2.0)
+BuildRequires:	pkgconfig(gobject-2.0)
+BuildRequires:	pkgconfig(gthread-2.0)
+BuildRequires:	pkgconfig(libffi)
+BuildRequires:	python-devel
+
+#BuildRequires: pkgconfig(freetype2)
+#BuildRequires: pkgconfig(fontconfig)
+#BuildRequires: pkgconfig(gl)
+#BuildRequires: pkgconfig(xft)
+
+Requires: %{libname} = %{version}-%{release}
+Conflicts: %{mklibname girepository 1.0 0} < 0.6.10-5
+Conflicts: gir-repository < 0.6.5-12.20100622.3
 
 %description
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
-%package -n %libname
+%package -n %{libname}
 Group: System/Libraries
 Summary: GObject Introspection shared library
-Conflicts: %name < 0.6.8-2mdv
-Requires: %name >= %version
+Conflicts: %{name} < 0.6.8-2
 
-%description -n %libname
+%description -n %{libname}
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
-
-%package -n %develname
+%package -n %{develname}
 Group: Development/C
 Summary: GObject Introspection development libraries
-Requires: %libname = %version-%release
-Provides: libgirepository-devel = %version-%release
-Provides: %name-devel = %version-%release
+Requires: %{libname} = %{version}-%{release}
 #gw /usr/bin/libtool is called in giscanner
 Requires: libtool
+Provides: libgirepository-devel = %{version}-%{release}
+Provides: %{name}-devel = %{version}-%{release}
 
-%description -n %develname
+%description -n %{develname}
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
 %prep
-%if %git
-%setup -q -n %name
-%else
 %setup -q
-%endif
 %apply_patches
-%if %git
-./autogen.sh -V
-%else
-autoreconf -fi
-%endif
 
 %build
-%configure2_5x --disable-static --enable-gtk-doc
+%configure2_5x \
+	--disable-static
+
 %make
 
 %install
 rm -rf %{buildroot}
 %makeinstall_std
 
+find %{buildroot} -name '*.la' -exec rm -f {} \;
+
 %check
 make check
 
-%clean
-rm -rf %{buildroot}
+%define typelibs DBus-1.0 DBusGLib-1.0 GIRepository-2.0 GL-1.0 GLib-2.0 \
+GModule-1.0 GObject-2.0 Gio-2.0 cairo-1.0 fontconfig-2.0 freetype2-2.0 \
+libxml2-2.0 xfixes-4.0 xft-2.0 xlib-2.0 xrandr-1.3
 
 %files
-%defattr(-,root,root)
-%doc README NEWS TODO AUTHORS
-%dir %_libdir/girepository-%api
-%_libdir/girepository-%api/DBus-1.0.typelib
-%_libdir/girepository-%api/DBusGLib-1.0.typelib
-%_libdir/girepository-%api/GIRepository-2.0.typelib
-%_libdir/girepository-%api/GL-1.0.typelib
-%_libdir/girepository-%api/GLib-2.0.typelib
-%_libdir/girepository-%api/GModule-2.0.typelib
-%_libdir/girepository-%api/GObject-2.0.typelib
-%_libdir/girepository-%api/Gio-2.0.typelib
-%_libdir/girepository-%api/cairo-1.0.typelib
-%_libdir/girepository-%api/fontconfig-2.0.typelib
-%_libdir/girepository-%api/freetype2-2.0.typelib
-%_libdir/girepository-%api/libxml2-2.0.typelib
-%_libdir/girepository-%api/xfixes-4.0.typelib
-%_libdir/girepository-%api/xft-2.0.typelib
-%_libdir/girepository-%api/xlib-2.0.typelib
-%_libdir/girepository-%api/xrandr-1.3.typelib
+%doc README
+%dir %{_libdir}/girepository-%{api}
+%(for typelib in %{typelibs}; do
+	echo "%{_libdir}/girepository-%{api}/$typelib.typelib"
+done)
 
-%files -n %libname
-%defattr(-,root,root)
-%_libdir/libgirepository-%api.so.%{major}*
+%files -n %{libname}
+%{_libdir}/libgirepository-%{api}.so.%{major}*
 
-%files -n %develname
-%defattr(-,root,root)
-%doc ChangeLog
-%_libdir/libgirepository-%api.so
-%_libdir/libgirepository*a
-%_libdir/pkgconfig/gobject-introspection-%api.pc
-%_libdir/pkgconfig/gobject-introspection-no-export-%api.pc
-%_includedir/%name-%api
-%_datadir/aclocal/*.m4
-%_datadir/%name-%api
-%_bindir/g-ir-*
-%_libdir/%name
-%_datadir/gtk-doc/html/gi
-%dir %_datadir/gir-%api
-%_datadir/gir-%api/DBus-1.0.gir
-%_datadir/gir-%api/DBusGLib-1.0.gir
-%_datadir/gir-%api/GIRepository-2.0.gir
-%_datadir/gir-%api/GL-1.0.gir
-%_datadir/gir-%api/GLib-2.0.gir
-%_datadir/gir-%api/GModule-2.0.gir
-%_datadir/gir-%api/GObject-2.0.gir
-%_datadir/gir-%api/Gio-2.0.gir
-%_datadir/gir-%api/cairo-1.0.gir
-%_datadir/gir-%api/fontconfig-2.0.gir
-%_datadir/gir-%api/freetype2-2.0.gir
-%_datadir/gir-%api/libxml2-2.0.gir
-%_datadir/gir-%api/xfixes-4.0.gir
-%_datadir/gir-%api/xft-2.0.gir
-%_datadir/gir-%api/xlib-2.0.gir
-%_datadir/gir-%api/xrandr-1.3.gir
-%_mandir/man1/*
+%files -n %{develname}
+%doc ChangeLog TODO NEWS AUTHORS
+%{_bindir}/g-ir-*
+%{_libdir}/%{name}
+%{_libdir}/libgirepository-%{api}.so
+%{_libdir}/pkgconfig/*.pc
+%{_includedir}/%{name}-%{api}
+%{_datadir}/aclocal/*.m4
+%{_datadir}/%{name}-%{api}
+%{_datadir}/gtk-doc/html/gi
+%dir %{_datadir}/gir-%{api}
+%(for typelib in %{typelibs}; do
+	echo "%{_datadir}/gir-%{api}/$typelib.gir"
+done)
+%{_mandir}/man1/*
