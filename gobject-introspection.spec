@@ -11,7 +11,6 @@ License: GPLv2+ and LGPLv2+
 Group: Development/C
 Url: http://www.gnome.org
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.xz
-Patch0: gobject-introspection-fix-link.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -27,11 +26,6 @@ BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	python-devel
-
-#BuildRequires: pkgconfig(freetype2)
-#BuildRequires: pkgconfig(fontconfig)
-#BuildRequires: pkgconfig(gl)
-#BuildRequires: pkgconfig(xft)
 
 Requires: %{libname} = %{version}-%{release}
 Conflicts: %{mklibname girepository 1.0 0} < 0.6.10-5
@@ -82,16 +76,14 @@ find %{buildroot} -name '*.la' -exec rm -f {} \;
 %check
 make check
 
-%define typelibs DBus-1.0 DBusGLib-1.0 GIRepository-2.0 GL-1.0 GLib-2.0 \
-GModule-1.0 GObject-2.0 Gio-2.0 cairo-1.0 fontconfig-2.0 freetype2-2.0 \
-libxml2-2.0 xfixes-4.0 xft-2.0 xlib-2.0 xrandr-1.3
+%define typelibnames DBus-1.0 DBusGLib-1.0 GIRepository-2.0 GL-1.0 GLib-2.0 GModule-2.0 GObject-2.0 Gio-2.0 cairo-1.0 fontconfig-2.0 freetype2-2.0 libxml2-2.0 xfixes-4.0 xft-2.0 xlib-2.0 xrandr-1.3
 
 %files
 %doc README
 %dir %{_libdir}/girepository-%{api}
-%(for typelib in %{typelibs}; do
-	echo "%{_libdir}/girepository-%{api}/$typelib.typelib"
-done)
+%(for typelibname in %{typelibnames}; do
+	echo "%{_libdir}/girepository-%{api}/$typelibname.typelib"
+  done)
 
 %files -n %{libname}
 %{_libdir}/libgirepository-%{api}.so.%{major}*
@@ -107,7 +99,7 @@ done)
 %{_datadir}/%{name}-%{api}
 %{_datadir}/gtk-doc/html/gi
 %dir %{_datadir}/gir-%{api}
-%(for typelib in %{typelibs}; do
-	echo "%{_datadir}/gir-%{api}/$typelib.gir"
-done)
+%(for typelibname in %{typelibnames}; do
+	echo "%{_datadir}/gir-%{api}/$typelibname.gir"
+  done)
 %{_mandir}/man1/*
