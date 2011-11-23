@@ -25,7 +25,7 @@ BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	libffi-devel
 BuildRequires:	python-devel
-
+Requires:	%{libname} = %{version}-%{release}
 Conflicts:      %{mklibname girepository 1.0 0} < 0.6.10-5
 Conflicts:      gir-repository < 0.6.5-12.20100622.3
 
