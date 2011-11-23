@@ -1,20 +1,19 @@
 %define api 1.0
 %define major 1
-%define libname %mklibname girepository %{api} %major
+%define libname %mklibname girepository %{api} %{major}
 %define develname %mklibname -d girepository
 
-Summary: GObject Introspection
-Name: gobject-introspection
-Version: 1.30.0
-Release: 1
-License: GPLv2+ and LGPLv2+
-Group: Development/C
-Url: http://www.gnome.org
-Source0: ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.xz
+Summary:        GObject Introspection
+Name:           gobject-introspection
+Version:        1.30.0
+Release:        2
+License:        GPLv2+ and LGPLv2+
+Group:          Development/C
+Url:            http://www.gnome.org
+Source0:        ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.xz
 
 BuildRequires:	bison
 BuildRequires:	flex
-BuildRequires:	gnome-common
 BuildRequires:	libtool
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
@@ -24,12 +23,11 @@ BuildRequires:	pkgconfig(glib-2.0) >= 2.29.7
 BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
-BuildRequires:	pkgconfig(libffi)
+BuildRequires:	libffi-devel
 BuildRequires:	python-devel
 
-Requires: %{libname} = %{version}-%{release}
-Conflicts: %{mklibname girepository 1.0 0} < 0.6.10-5
-Conflicts: gir-repository < 0.6.5-12.20100622.3
+Conflicts:      %{mklibname girepository 1.0 0} < 0.6.10-5
+Conflicts:      gir-repository < 0.6.5-12.20100622.3
 
 %description
 The goal of the project is to describe the APIs and  collect them in
