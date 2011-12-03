@@ -6,7 +6,7 @@
 Summary:        GObject Introspection
 Name:           gobject-introspection
 Version:        1.30.0
-Release:        3
+Release:        4
 License:        GPLv2+ and LGPLv2+
 Group:          Development/C
 Url:            http://www.gnome.org
@@ -49,6 +49,7 @@ Requires: %{libname} = %{version}-%{release}
 #gw /usr/bin/libtool is called in giscanner
 Requires: libtool
 Provides: libgirepository-devel = %{version}-%{release}
+Provides: girepository-devel = %{version}-%{release}
 Provides: %{name}-devel = %{version}-%{release}
 
 %description -n %{develname}
