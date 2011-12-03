@@ -6,7 +6,7 @@
 Summary:        GObject Introspection
 Name:           gobject-introspection
 Version:        1.30.0
-Release:        2
+Release:        3
 License:        GPLv2+ and LGPLv2+
 Group:          Development/C
 Url:            http://www.gnome.org
