@@ -5,12 +5,12 @@
 
 Summary:        GObject Introspection
 Name:           gobject-introspection
-Version:        1.30.0
-Release:        4
-License:        GPLv2+ and LGPLv2+
+Version:        1.31.0
+Release:        1
+License:        GPLv2+, LGPLv2+, MIT
 Group:          Development/C
-Url:            http://www.gnome.org
-Source0:        ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.xz
+Url:            http://live.gnome.org/GObjectIntrospection
+Source0:        http://ftp.acc.umu.se/pub/GNOME/sources/%{name}/%{version}/%{name}-%{version}.tar.xz
 
 BuildRequires:	bison
 BuildRequires:	flex
