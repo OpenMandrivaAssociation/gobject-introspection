@@ -3,15 +3,14 @@
 %define libname %mklibname girepository %{api} %{major}
 %define develname %mklibname -d girepository
 
-Summary:        GObject Introspection
-Name:           gobject-introspection
-Version:        1.31.0
-Release:        1
-License:        GPLv2+, LGPLv2+, MIT
-Group:          Development/C
-Url:            http://live.gnome.org/GObjectIntrospection
-Source0:        http://ftp.acc.umu.se/pub/GNOME/sources/%{name}/%{version}/%{name}-%{version}.tar.xz
-
+Summary:	GObject Introspection
+Name:		gobject-introspection
+Version:	1.32.0
+Release:	1
+License:	GPLv2+, LGPLv2+, MIT
+Group:		Development/C
+Url:		http://live.gnome.org/GObjectIntrospection
+Source0:	http://ftp.acc.umu.se/pub/GNOME/sources/%{name}/%{version}/%{name}-%{version}.tar.xz
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
@@ -26,31 +25,31 @@ BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	libffi-devel
 BuildRequires:	python-devel
 Requires:	%{libname} = %{version}-%{release}
-Conflicts:      %{mklibname girepository 1.0 0} < 0.6.10-5
-Conflicts:      gir-repository < 0.6.5-12.20100622.3
+Conflicts:	%mklibname girepository 1.0 0 < 0.6.10-5
+Conflicts:	gir-repository < 0.6.5-12.20100622.3
 
 %description
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
 %package -n %{libname}
-Group: System/Libraries
-Summary: GObject Introspection shared library
-Conflicts: %{name} < 0.6.8-2
+Group:		System/Libraries
+Summary:	GObject Introspection shared library
+Conflicts:	%{name} < 0.6.8-2
 
 %description -n %{libname}
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
 %package -n %{develname}
-Group: Development/C
-Summary: GObject Introspection development libraries
-Requires: %{libname} = %{version}-%{release}
+Group:		Development/C
+Summary:	GObject Introspection development libraries
+Requires:	%{libname} = %{version}-%{release}
 #gw /usr/bin/libtool is called in giscanner
-Requires: libtool
-Provides: libgirepository-devel = %{version}-%{release}
-Provides: girepository-devel = %{version}-%{release}
-Provides: %{name}-devel = %{version}-%{release}
+Requires:	libtool
+Provides:	libgirepository-devel = %{version}-%{release}
+Provides:	girepository-devel = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n %{develname}
 The goal of the project is to describe the APIs and  collect them in
@@ -67,10 +66,8 @@ a uniform, machine readable format.
 %make
 
 %install
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 %makeinstall_std
-
-find %{buildroot} -name '*.la' -exec rm -f {} \;
 
 %check
 make check
