@@ -6,11 +6,18 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.32.0
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
 Source0:	http://ftp.acc.umu.se/pub/GNOME/sources/%{name}/%{version}/%{name}-%{version}.tar.xz
+# gi-find-deps.sh is a rpm helper for Provides and Requires. Script creates typelib()-style Provides/Requires.
+Source1:	gi-find-deps.sh
+Source2:	typelib.macros
+Source3:	gobject-introspection-typelib.template
+# PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
+Patch0:	g-ir-dep-tool.patch
+
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
@@ -24,9 +31,14 @@ BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	libffi-devel
 BuildRequires:	python-devel
+
 Requires:	%{libname} = %{version}-%{release}
 Conflicts:	%mklibname girepository 1.0 0 < 0.6.10-5
 Conflicts:	gir-repository < 0.6.5-12.20100622.3
+
+# Provide typelib() symbols based on gobject-introspection-typelib.template
+# The template is checked during install if it matches the installed *.typelib files.
+%(cat %{SOURCE3} | awk '{ print "Provides: " $0}')
 
 %description
 The goal of the project is to describe the APIs and  collect them in
@@ -60,14 +72,20 @@ a uniform, machine readable format.
 %apply_patches
 
 %build
+autoreconf -fi
 %configure2_5x \
 	--disable-static
 
 %make
 
 %install
-%__rm -rf %{buildroot}
 %makeinstall_std
+install -D %{SOURCE1} %{buildroot}%{_rpmhome}/gi-find-deps.sh
+install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmhome}/macros.d/typelib
+
+# comparing, if we provide all the symbols expected.
+ls %{buildroot}%{_libdir}/girepository-1.0/*.typelib | sh %{SOURCE1} -P > gobject-introspection-typelib.installed
+diff -s %{SOURCE3} gobject-introspection-typelib.installed
 
 %check
 make check
@@ -79,14 +97,18 @@ make check
 %dir %{_libdir}/girepository-%{api}
 %(for typelibname in %{typelibnames}; do
 	echo "%{_libdir}/girepository-%{api}/$typelibname.typelib"
-  done)
+done)
 
 %files -n %{libname}
 %{_libdir}/libgirepository-%{api}.so.%{major}*
 
 %files -n %{develname}
 %doc ChangeLog TODO NEWS AUTHORS
-%{_bindir}/g-ir-*
+%{_bindir}/g-ir-annotation-tool
+%{_bindir}/g-ir-compiler
+%{_bindir}/g-ir-dep-tool
+%{_bindir}/g-ir-generate
+%{_bindir}/g-ir-scanner
 %{_libdir}/%{name}
 %{_libdir}/libgirepository-%{api}.so
 %{_libdir}/pkgconfig/*.pc
@@ -97,5 +119,7 @@ make check
 %dir %{_datadir}/gir-%{api}
 %(for typelibname in %{typelibnames}; do
 	echo "%{_datadir}/gir-%{api}/$typelibname.gir"
-  done)
+done)
+%{_rpmhome}/gi-find-deps.sh
+%{_rpmhome}/macros.d/typelib
 %{_mandir}/man1/*
