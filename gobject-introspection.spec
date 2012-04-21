@@ -1,3 +1,4 @@
+%define build_bootstrap	0
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
@@ -6,7 +7,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.32.0
-Release:	2
+Release:	3
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -25,20 +26,28 @@ BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
 BuildRequires:	pkgconfig(gio-unix-2.0)
-BuildRequires:	pkgconfig(glib-2.0) >= 2.29.7
+BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
-BuildRequires:	libffi-devel
-BuildRequires:	python-devel
+BuildRequires:	pkgconfig(libffi)
+BuildRequires:	pkgconfig(python)
+# these are needed by the g-ir-dep-tool
+%if !%{build_bootstrap}
+BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
+BuildRequires:	gobject-introspection >= 1.32.0-2
+BuildRequires:	%{_lib}atk-gir1.0 >= 2.4.0-1
+%endif
 
 Requires:	%{libname} = %{version}-%{release}
 Conflicts:	%mklibname girepository 1.0 0 < 0.6.10-5
-Conflicts:	gir-repository < 0.6.5-12.20100622.3
+%rename		gir-repository
 
 # Provide typelib() symbols based on gobject-introspection-typelib.template
 # The template is checked during install if it matches the installed *.typelib files.
+%if %{build_bootstrap}
 %(cat %{SOURCE3} | awk '{ print "Provides: " $0}')
+%endif
 
 %description
 The goal of the project is to describe the APIs and  collect them in
@@ -56,6 +65,9 @@ a uniform, machine readable format.
 %package -n %{develname}
 Group:		Development/C
 Summary:	GObject Introspection development libraries
+# these two pkgs are needed for typelib requires generation
+Requires:	%{name} = %{version}-%{release}
+Requires:	%{_lib}atk-gir1.0 >= 2.4.0-1
 Requires:	%{libname} = %{version}-%{release}
 #gw /usr/bin/libtool is called in giscanner
 Requires:	libtool
@@ -84,8 +96,10 @@ install -D %{SOURCE1} %{buildroot}%{_rpmhome}/gi-find-deps.sh
 install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmhome}/macros.d/typelib
 
 # comparing, if we provide all the symbols expected.
+%if %{build_bootstrap}
 ls %{buildroot}%{_libdir}/girepository-1.0/*.typelib | sh %{SOURCE1} -P > gobject-introspection-typelib.installed
 diff -s %{SOURCE3} gobject-introspection-typelib.installed
+%endif
 
 %check
 make check
