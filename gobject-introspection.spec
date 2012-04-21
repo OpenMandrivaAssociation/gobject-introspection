@@ -7,7 +7,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.32.0
-Release:	3
+Release:	4
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -22,6 +22,8 @@ Patch0:	g-ir-dep-tool.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
+# this could be removed if the typelib stuff is backported
+BuildRequires:	rpm >= 5.4.7-14
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
