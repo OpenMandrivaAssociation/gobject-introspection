@@ -7,7 +7,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.32.0
-Release:	5
+Release:	6
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -38,7 +38,6 @@ BuildRequires:	pkgconfig(python)
 %if !%{build_bootstrap}
 BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
 BuildRequires:	gobject-introspection >= 1.32.0-2
-BuildRequires:	%{_lib}atk-gir1.0 >= 2.4.0-1
 %endif
 
 Requires:	%{libname} = %{version}-%{release}
@@ -69,7 +68,6 @@ Group:		Development/C
 Summary:	GObject Introspection development libraries
 # these two pkgs are needed for typelib requires generation
 Requires:	%{name} = %{version}-%{release}
-Requires:	%{_lib}atk-gir1.0 >= 2.4.0-1
 Requires:	%{libname} = %{version}-%{release}
 #gw /usr/bin/libtool is called in giscanner
 Requires:	libtool
