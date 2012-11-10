@@ -1,0 +1,4 @@
+gi-find-deps.sh
+gobject-introspection-1.32.1.tar.xz
+gobject-introspection-typelib.template
+typelib.macros

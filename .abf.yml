@@ -1,0 +1,5 @@
+sources:
+  "gi-find-deps.sh:"	de1019ed6012b33a09e272b6e40ceaec6cc6e7d7
+  "gobject-introspection-1.32.1.tar.xz:"	289df976328490a2d5d4187032cf6d429dcef121
+  "gobject-introspection-typelib.template:"	1386359a9116e63e7f64877fccf1f1c71853dc8f
+  "typelib.macros:"	16a5846e0e62259f2a91e4965ddf8b2b16f5bb02
