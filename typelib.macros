@@ -1,0 +1,4 @@
+%__typelib_provides       %{_rpmhome}/gi-find-deps.sh -P
+%__typelib_requires       %{_rpmhome}/gi-find-deps.sh -R %{buildroot}
+%__typelib_path           ^(%{_libdir}/.*\.typelib)|(.*\.py)|(.*\.js)$
+%__typelib_exclude_path   ^/usr/share/doc/packages/

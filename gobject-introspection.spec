@@ -4,12 +4,12 @@
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
-%define develname %mklibname -d girepository
+%define devname %mklibname -d girepository
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.32.1
-Release:	1
+Version: 1.34.2
+Release: 1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -36,6 +36,7 @@ BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python)
+BuildRequires:	python-mako
 # these are needed by the g-ir-dep-tool
 %if !%{build_bootstrap}
 BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
@@ -65,7 +66,7 @@ Conflicts:	%{name} < 0.6.8-2
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
-%package -n %{develname}
+%package -n %{devname}
 Group:		Development/C
 Summary:	GObject Introspection development libraries
 # these two pkgs are needed for typelib requires generation
@@ -77,7 +78,7 @@ Provides:	libgirepository-devel = %{version}-%{release}
 Provides:	girepository-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n %{develname}
+%description -n %{devname}
 The goal of the project is to describe the APIs and  collect them in
 a uniform, machine readable format.
 
@@ -118,7 +119,7 @@ done)
 %files -n %{libname}
 %{_libdir}/libgirepository-%{api}.so.%{major}*
 
-%files -n %{develname}
+%files -n %{devname}
 %doc ChangeLog TODO NEWS AUTHORS
 %{_bindir}/g-ir-annotation-tool
 %{_bindir}/g-ir-compiler
@@ -139,3 +140,13 @@ done)
 %{_rpmhome}/gi-find-deps.sh
 %{_rpmhome}/macros.d/typelib
 %{_mandir}/man1/*
+
+
+%changelog
+* Mon Oct  2 2012 Arkady L. Shane <ashejn@rosalab.ru> 1.34.0-1
+- update to 1.34.0
+
+* Sun May 06 2012 Matthew Dawkins <mattydaw@mandriva.org> 1.32.1-1
++ Revision: 797159
+- new version 1.32.1
+
