@@ -8,7 +8,7 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version: 1.34.2
+Version: 1.35.2
 Release: 1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
@@ -132,7 +132,7 @@ done)
 %{_includedir}/%{name}-%{api}
 %{_datadir}/aclocal/*.m4
 %{_datadir}/%{name}-%{api}
-%{_datadir}/gtk-doc/html/gi
+#% {_datadir}/gtk-doc/html/gi
 %dir %{_datadir}/gir-%{api}
 %(for typelibname in %{typelibnames}; do
 	echo "%{_datadir}/gir-%{api}/$typelibname.gir"
