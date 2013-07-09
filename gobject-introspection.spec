@@ -132,6 +132,7 @@ done)
 %{_bindir}/g-ir-dep-tool
 %{_bindir}/g-ir-generate
 %{_bindir}/g-ir-scanner
+%{_bindir}/g-ir-doc-tool
 %{_libdir}/%{name}
 %{_libdir}/libgirepository-%{api}.so
 %{_libdir}/pkgconfig/*.pc
