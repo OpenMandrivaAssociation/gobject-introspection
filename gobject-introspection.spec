@@ -37,6 +37,7 @@ BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python-mako
+BuildRequires:	gtk-doc
 # these are needed by the g-ir-dep-tool
 %if !%{build_bootstrap}
 BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
