@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.37.6
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -73,7 +73,7 @@ a uniform, machine readable format.
 %package -n %{girglibname}
 Summary: GObject Introspection interface description for glib
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girglibname}
 GObject Introspection interface description for glib.
@@ -90,7 +90,7 @@ GObject Introspection interface description for glib.
 %package -n %{girdbusname}
 Summary: GObject Introspection interface description for dbus
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girdbusname}
 GObject Introspection interface description for dbus.
@@ -104,7 +104,7 @@ GObject Introspection interface description for dbus.
 %package -n %{girdbusglibname}
 Summary: GObject Introspection interface description for dbusglib
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girdbusglibname}
 GObject Introspection interface description for dbusglib.
@@ -118,7 +118,7 @@ GObject Introspection interface description for dbusglib.
 %package -n %{girgirepositoryname}
 Summary: GObject Introspection interface description for girepository
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 Requires: %{libname} = %{version}-%{release}
 
 %description -n %{girgirepositoryname}
@@ -133,7 +133,7 @@ GObject Introspection interface description for girepository.
 %package -n %{girglname}
 Summary: GObject Introspection interface description for OpenGL
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girglname}
 GObject Introspection interface description for OpenGL.
@@ -147,7 +147,7 @@ GObject Introspection interface description for OpenGL.
 %package -n %{gircaironame}
 Summary: GObject Introspection interface description for cairo
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{gircaironame}
 GObject Introspection interface description for cairo.
@@ -161,7 +161,7 @@ GObject Introspection interface description for cairo.
 %package -n %{girfontconfigname}
 Summary: GObject Introspection interface description for fontconfig
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girfontconfigname}
 GObject Introspection interface description for fontconfig.
@@ -175,7 +175,7 @@ GObject Introspection interface description for fontconfig.
 %package -n %{girfreetypename}
 Summary: GObject Introspection interface description for freetype
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girfreetypename}
 GObject Introspection interface description for freetype.
@@ -190,7 +190,7 @@ GObject Introspection interface description for freetype.
 %package -n %{girlibxml2name}
 Summary: GObject Introspection interface description for libxml2
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 Obsoletes: %{_lib}libxml2-gir2.0 < 1.36.0-2
 
 %description -n %{girlibxml2name}
@@ -205,7 +205,7 @@ GObject Introspection interface description for libxml2.
 %package -n %{girxfixesname}
 Summary: GObject Introspection interface description for xfixes
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girxfixesname}
 GObject Introspection interface description for xfixes.
@@ -220,7 +220,7 @@ GObject Introspection interface description for xfixes.
 %package -n %{girxftname}
 Summary: GObject Introspection interface description for xft
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girxftname}
 GObject Introspection interface description for xft.
@@ -234,7 +234,7 @@ GObject Introspection interface description for xft.
 %package -n %{girxlibname}
 Summary: GObject Introspection interface description for xlib
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girxlibname}
 GObject Introspection interface description for xlib.
@@ -248,7 +248,7 @@ GObject Introspection interface description for xlib.
 %package -n %{girxrandrname}
 Summary: GObject Introspection interface description for xrandr
 Group: System/Libraries
-Conflicts: %{name} < 1.29.16-3
+Conflicts: %{name} < 1.36.0-2
 
 %description -n %{girxrandrname}
 GObject Introspection interface description for xrandr.
