@@ -130,6 +130,8 @@ function inList() {
 
 x64bitarch="x86_64 ppc64 s390x ia64 aarch64"
 
+export RPM_BUILD_ROOT=$2
+
 for path in \
 	$(for tlpath in \
 	$(find ${RPM_BUILD_ROOT}/usr/lib64 ${RPM_BUILD_ROOT}/usr/lib /usr/lib64 /usr/lib -name '*.typelib' 2>/dev/null); do
