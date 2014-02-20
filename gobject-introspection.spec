@@ -19,7 +19,7 @@ Source1:	gi-find-deps.sh
 Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
-Patch0:	g-ir-dep-tool.patch
+Patch0:		g-ir-dep-tool.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -304,14 +304,11 @@ a uniform, machine readable format.
 %prep
 %setup -q
 %apply_patches
+autoreconf -fiv
 
 %build
-aclocal
-automake -af
-autoconf
-%configure \
-	--disable-static \
-	--enable-doctool --enable-gtk-doc
+%configure	--enable-doctool \
+		--enable-gtk-doc
 
 %make
 
