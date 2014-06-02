@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Automatically find Provides and Requires for typelib() gobject-introspection bindings.
 # can be started with -R (Requires) and -P (Provides)
@@ -17,6 +17,11 @@ version=${base#*-}
 if [ "$tsymbol" = "$version" ]; then
 	unset version
 fi
+}
+
+function split_name_version2 {
+  symbol=$(echo $1 | awk -F: '{print $1}' | sed "s:[' ]::g")
+  version=$(echo $1 | awk -F: '{print $2}' | sed "s:[' ]::g")
 }
 
 function print_req_prov {
@@ -39,14 +44,29 @@ while read file; do
 done
 }
 
+function gresources_requires {
+# GNOME is embedding .js files into ELF binaries for faster startup.
+# As a result, we need to extract them and re'run the scanner over the
+# embedded files.
+# We extract all the gresources embedded in ELF binaries and start
+# gi-find-deps.sh recusively over the extracted file list.
+tmpdir=$(mktemp -d)
+for resource in $($gresourcecmd list "$1" 2>/dev/null); do
+  mkdir -p $tmpdir/$(dirname $resource)
+  $gresourcecmd extract "$1" $resource > $tmpdir/$resource
+done
+find $tmpdir -type f | sh $0 -R
+rm -rf "$tmpdir"
+}
+
 function python_requires {
-	for module in $(grep -h -P "from gi\.repository import (\w+)" $1 | sed -e 's:#.*::' -e 's:raise ImportError.*::' -e 's:.*"from gi.repository import Foo".*::' | sed -e 's,from gi.repository import,,' -r -e 's:\s+$::g' -e 's:\s+as\s+\w+::g' -e 's:,: :g'); do
+	for module in $(grep -h -P "from gi\.repository import (\w+)" $1 | sed -e 's:#.*::' -e 's:raise ImportError.*::' -e 's:.*"from gi.repository import .*".*::' | sed -e 's,from gi.repository import,,' -r -e 's:\s+$::g' -e 's:\s+as\s+\w+::g' -e 's:,: :g'); do
 		split_name_version $module
 		print_req_prov
 		# Temporarly disabled... this is not true if the python code is written for python3... And there seems no real 'way' to identify this.
 		# echo "python-gobject >= 2.21.4"
 	done
-	for module in $(grep -h -P -o "(gi\.require_version\(['\"][^'\"]+['\"],\s*['\"][^'\"]+['\"]\))" $1 | sed -e 's:gi.require_version::' -e "s:[()\"' ]::g" -e 's:,:-:'); do
+	for module in $(grep -h -P -o ".*(gi\.require_version\(['\"][^'\"]+['\"],\s*['\"][^'\"]+['\"]\))" $1 | sed  -e 's:#.*::' -e 's:.*gi.require_version::' -e "s:[()\"' ]::g" -e 's:,:-:'); do
 		split_name_version $module
 		print_req_prov
 	done
@@ -62,6 +82,59 @@ function javascript_requires {
 		split_name_version $module
 		print_req_prov
 	done
+	# Remember files which contain a pkg.require() call
+	if pcregrep -M "pkg.require\\(([^;])*" $1 > /dev/null; then
+		# the file contains a pkg.require(..) list... let's remember th is file for the in-depth scanner
+		if [ -n "$jspkg" ]; then
+			jspkg=$1:${jspkg}
+		else
+			jspkg=$1
+		fi
+	fi
+	# remember files which contain exlucde filters used against pkg.require()
+	if pcregrep -M "const RECOGNIZED_MODULE_NAMES =([^;])*" $1 > /dev/null; then
+		# the file contains RECOGNIZED_MODULE_NAMES list. We remember the file name for the follow up filtering
+		if [ -n "$jspkgfilt" ]; then
+			jspkgfilt=$1:${jspkgfilt}
+		else
+			jspkgfilt=$1
+		fi
+	fi
+
+}
+
+function javascript_pkg_filter {
+# For now this is a dummy function based on gnome-weather information
+#for file in $jspkgfilt; do
+#	FILTER=($(pcregrep -M "const RECOGNIZED_MODULE_NAMES =([^;])*" $file | grep -o "'.*'" | sed "s:'::g"))
+#done
+  FILTER=('Lang' 'Mainloop' 'Signals' 'System' 'Params')
+}
+
+function javascript_pkg_requires {
+# javascript files were found which specify pkg.require('..': '..'[,'..': '']); list
+# This is used in some apps in order to have a 'centralized' point to specify all package dependencies.
+# once we reach this function, we already know which file(s) contain the pkg.require(..) list.
+oldIFS=$IFS
+IFS=:
+for file in "$jspkg"; do
+	IFS=$'\n'
+	PKGS=$(pcregrep -M "pkg.require\\(([^;])*" $file | grep -o "'.*': '.*'")
+	for pkg in $PKGS; do
+		split_name_version2 $pkg
+		found=0
+		for (( i=0 ; i<${#FILTER[@]} ; i++ )); do
+			if [ "$symbol" = "${FILTER[$i]}" ]; then
+				found=1
+			fi
+		done
+		if [ $found -eq 0 ]; then
+			print_req_prov
+		fi
+	done
+	IFS=:
+done
+IFS=$oldIFS
 
 }
 
@@ -110,15 +183,29 @@ while read file; do
 		*.typelib)
 			typelib_requires "$file"
 			;;
+		*.gresource)
+			gresources_requires "$file"
+			;;
 		*)
 			case $(file -b $file) in
 				Python\ script*)
 					python_requires "$file"
 					;;
+				*ELF*)
+					gresources_requires "$file"
+					;;
 			esac
 			;;
 	esac
 done
+# The pkg filter is a place holder. This should read the filter from the javascript files.
+#if [ -n "$jspkgfilt" ]; then
+javascript_pkg_filter
+#fi
+# in case the javascript parser above detected files which specify pkg.require, we enter the more in-depth scanning scheme for those files.
+if [ -n "$jspkg" ]; then
+	javascript_pkg_requires
+fi
 }
 
 function inList() {
@@ -128,7 +215,7 @@ function inList() {
   return 1
 }
 
-x64bitarch="x86_64 ppc64 s390x ia64 aarch64"
+x64bitarch="x86_64 ppc64 ppc64le s390x ia64 aarch64"
 
 export RPM_BUILD_ROOT=$2
 
@@ -138,6 +225,12 @@ for path in \
         	dirname $tlpath; done | uniq ); do
 	export GI_TYPELIB_PATH=$GI_TYPELIB_PATH:$path
 done
+
+if which gresource >/dev/null 2>&1; then
+  gresourcecmd=$(which gresource 2>/dev/null)
+else
+  grsourcecmd="false"
+fi
 
 if inList "$x64bitarch" "${HOSTTYPE}"; then
 	shlib_64="()(64bit)"
