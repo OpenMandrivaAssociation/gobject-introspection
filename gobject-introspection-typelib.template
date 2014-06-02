@@ -10,6 +10,7 @@ typelib(cairo) = 1.0
 typelib(fontconfig) = 2.0
 typelib(freetype2) = 2.0
 typelib(libxml2) = 2.0
+typelib(win32) = 1.0
 typelib(xfixes) = 4.0
 typelib(xft) = 2.0
 typelib(xlib) = 2.0
