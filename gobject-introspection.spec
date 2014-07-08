@@ -35,8 +35,8 @@ BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
-BuildRequires:	pkgconfig(python)
-BuildRequires:	python-mako
+BuildRequires:	pkgconfig(python2)
+BuildRequires:	python2-mako
 BuildRequires:	gtk-doc
 # these are needed by the g-ir-dep-tool
 %if !%{build_bootstrap}
@@ -309,6 +309,10 @@ a uniform, machine readable format.
 autoreconf -fiv
 
 %build
+# This super-broken crap could easily win the IOCCC contest.
+# Let's not fix it for python3, whoever wrote this code deserves
+# the punishment of having to fix it.
+export PYTHON=%{_bindir}/python2
 %configure	--enable-doctool \
 		--enable-gtk-doc
 
