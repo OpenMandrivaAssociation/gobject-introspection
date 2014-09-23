@@ -314,7 +314,8 @@ autoreconf -fiv
 # the punishment of having to fix it.
 export PYTHON=%{_bindir}/python2
 %configure	--enable-doctool \
-		--enable-gtk-doc
+		--enable-gtk-doc || cat config.log
+aj
 
 %make
 
