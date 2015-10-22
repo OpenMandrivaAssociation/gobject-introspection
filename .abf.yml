@@ -1,5 +1,6 @@
 removed_sources:
   gobject-introspection-1.40.0.tar.xz: 6eb5476838650f8b3cdd14100081f3416eebf6b7
   gobject-introspection-1.42.0.tar.xz: b3e095004aa8321a5a814aacd019e6953d69c4eb
-sources:
   gobject-introspection-1.44.0.tar.xz: 5bae1d170e19d6b3de2d1dd2554d5fc1230ee5fd
+sources:
+  gobject-introspection-1.46.0.tar.xz: ca4842479b119da1c8d3fbf5006adcc46920ce72

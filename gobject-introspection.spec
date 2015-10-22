@@ -8,7 +8,7 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.44.0
+Version:	1.46.0
 Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
