@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.46.0
-Release:	2
+Release:	3
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -313,8 +313,9 @@ autoreconf -fiv
 # Let's not fix it for python3, whoever wrote this code deserves
 # the punishment of having to fix it.
 export PYTHON=%{_bindir}/python2
-%configure	--enable-doctool \
-		--enable-gtk-doc
+%configure \
+    --enable-doctool \
+    --enable-gtk-doc
 
 %make
 
@@ -368,13 +369,3 @@ diff -s %{SOURCE3} gobject-introspection-typelib.installed
 %{_mandir}/man1/*
 %{_rpmhome}/gi-find-deps.sh
 %{_rpmhome}/macros.d/typelib
-
-
-%changelog
-* Mon Oct  2 2012 Arkady L. Shane <ashejn@rosalab.ru> 1.34.0-1
-- update to 1.34.0
-
-* Sun May 06 2012 Matthew Dawkins <mattydaw@mandriva.org> 1.32.1-1
-+ Revision: 797159
-- new version 1.32.1
-
