@@ -8,8 +8,8 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.46.0
-Release:	3
+Version:	1.50.0
+Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -338,7 +338,6 @@ diff -s %{SOURCE3} gobject-introspection-typelib.installed
 %{_libdir}/libgirepository-%{api}.so.%{major}*
 
 %files -n %{devname}
-%doc ChangeLog
 %{_libdir}/libgirepository-%{api}.so
 %{_libdir}/pkgconfig/gobject-introspection-%{api}.pc
 %{_libdir}/pkgconfig/gobject-introspection-no-export-%{api}.pc
