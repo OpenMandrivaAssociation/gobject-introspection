@@ -1,54 +1,33 @@
-From ed8a690dbe738b3096f8d43bdbc627eb3f951523 Mon Sep 17 00:00:00 2001
-From: Dominique Leuenberger <dimstar@opensuse.org>
-Date: Tue, 6 Dec 2011 16:23:59 +0100
-Subject: [PATCH] Bug 655672: g-ir-dep-scanner: Scan dependencies of a typelib
- and give  information.
-
-This allows distributions to create automatic dependency tracking coming
-from .typelib files.
-
-The dependencies identified at this time are:
-typelib - based dependencies
-shared library - dependencies
----
- Makefile-tools.am     |   10 +++++-
- tools/g-ir-dep-tool.c |   78 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+), 1 deletions(-)
- create mode 100644 tools/g-ir-dep-tool.c
-
-diff --git a/Makefile-tools.am b/Makefile-tools.am
-index f84de99..6bc4da4 100644
---- a/Makefile-tools.am
-+++ b/Makefile-tools.am
+diff -urN gobject-introspection-1.50.0/Makefile-tools.am gobject-introspection-1.50.0-patched/Makefile-tools.am
+--- gobject-introspection-1.50.0/Makefile-tools.am	2016-07-29 15:32:43.000000000 +1000
++++ gobject-introspection-1.50.0-patched/Makefile-tools.am	2016-09-30 00:47:45.955492996 +1000
 @@ -1,5 +1,6 @@
- bin_PROGRAMS += g-ir-compiler g-ir-generate
+ bin_PROGRAMS += g-ir-compiler g-ir-generate g-ir-inspect
  bin_SCRIPTS += g-ir-scanner g-ir-annotation-tool
 +bin_PROGRAMS += g-ir-dep-tool
  
  if BUILD_DOCTOOL
  bin_SCRIPTS += g-ir-doc-tool
-@@ -38,8 +39,15 @@ g_ir_generate_LDADD = \
- 	libgirepository-1.0.la		\
- 	$(GIREPO_LIBS)
+@@ -46,8 +47,15 @@
+         libgirepository-1.0.la	\
+         $(GIREPO_LIBS)
  
 +g_ir_dep_tool_SOURCES = tools/g-ir-dep-tool.c
 +g_ir_dep_tool_CFLAGS = $(GIO_CFLAGS) -I$(top_srcdir)/girepository
 +g_ir_dep_tool_LDADD = \
-+        libgirepository-internals.la    \
-+        libgirepository-1.0.la          \
-+        $(GIREPO_LIBS)
++	libgirepository-internals.la	\
++	libgirepository-1.0.la		\
++	$(GIREPO_LIBS)
 +
  GCOVSOURCES =					\
  	$(g_ir_compiler_SOURCES)		\
  	$(g_ir_generate_SOURCES)
  
--CLEANFILES += g-ir-scanner g-ir-annotation-tool g-ir-doc-tool
-+CLEANFILES += g-ir-scanner g-ir-annotation-tool g-ir-doc-tool g-ir-dep-tool
-diff --git a/tools/g-ir-dep-tool.c b/tools/g-ir-dep-tool.c
-new file mode 100644
-index 0000000..800779b
---- /dev/null
-+++ b/tools/g-ir-dep-tool.c
+-CLEANFILES += g-ir-scanner g-ir-annotation-tool g-ir-doc-tool g-ir-inspect
++CLEANFILES += g-ir-scanner g-ir-annotation-tool g-ir-doc-tool g-ir-inspect g-ir-dep-tool
+diff -urN gobject-introspection-1.50.0/tools/g-ir-dep-tool.c gobject-introspection-1.50.0-patched/tools/g-ir-dep-tool.c
+--- gobject-introspection-1.50.0/tools/g-ir-dep-tool.c	1970-01-01 10:00:00.000000000 +1000
++++ gobject-introspection-1.50.0-patched/tools/g-ir-dep-tool.c	2016-09-30 00:46:28.923495036 +1000
 @@ -0,0 +1,78 @@
 +
 +/* -*- Mode: C; c-file-style: "gnu"; -*- */
@@ -128,6 +107,3 @@ index 0000000..800779b
 +
 +	return 0;
 +}
--- 
-1.7.7.3
-
