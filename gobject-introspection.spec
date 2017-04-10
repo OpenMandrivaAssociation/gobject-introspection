@@ -38,6 +38,7 @@ BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	python2-mako
 BuildRequires:	gtk-doc
+BuildRequires:	chrpath
 # these are needed by the g-ir-dep-tool
 %if !%{build_bootstrap}
 BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
@@ -329,6 +330,11 @@ install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmhome}/macros.d/typelib
 ls %{buildroot}%{_libdir}/girepository-1.0/*.typelib | sh %{SOURCE1} -P > gobject-introspection-typelib.installed
 diff -s %{SOURCE3} gobject-introspection-typelib.installed
 %endif
+
+# Remove lib64 rpaths
+chrpath --delete %{buildroot}%{_bindir}/g-ir-compiler
+chrpath --delete %{buildroot}%{_bindir}/g-ir-generate
+chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 
 %files
 %doc README NEWS TODO AUTHORS
