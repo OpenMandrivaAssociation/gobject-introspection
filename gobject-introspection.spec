@@ -8,8 +8,8 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.46.0
-Release:	3
+Version:	1.51.5
+Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -38,6 +38,7 @@ BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	python2-mako
 BuildRequires:	gtk-doc
+BuildRequires:	chrpath
 # these are needed by the g-ir-dep-tool
 %if !%{build_bootstrap}
 BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
@@ -330,6 +331,11 @@ ls %{buildroot}%{_libdir}/girepository-1.0/*.typelib | sh %{SOURCE1} -P > gobjec
 diff -s %{SOURCE3} gobject-introspection-typelib.installed
 %endif
 
+# Remove lib64 rpaths
+chrpath --delete %{buildroot}%{_bindir}/g-ir-compiler
+chrpath --delete %{buildroot}%{_bindir}/g-ir-generate
+chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
+
 %files
 %doc README NEWS TODO AUTHORS
 %dir %{_libdir}/girepository-%{api}
@@ -338,7 +344,6 @@ diff -s %{SOURCE3} gobject-introspection-typelib.installed
 %{_libdir}/libgirepository-%{api}.so.%{major}*
 
 %files -n %{devname}
-%doc ChangeLog
 %{_libdir}/libgirepository-%{api}.so
 %{_libdir}/pkgconfig/gobject-introspection-%{api}.pc
 %{_libdir}/pkgconfig/gobject-introspection-no-export-%{api}.pc
