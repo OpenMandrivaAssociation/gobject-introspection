@@ -6,10 +6,13 @@
 %define libname %mklibname girepository %{api} %{major}
 %define devname %mklibname -d girepository
 
+# (tpg) using LTO produces broken g-ir-scanner, disable it then
+%define _disable_lto 1
+
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.51.5
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
