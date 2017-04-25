@@ -1,12 +1,12 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
 
-%define build_bootstrap	1
+%define build_bootstrap	0
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
 %define devname %mklibname -d girepository
 
-# (tpg) using LTO produces broken g-ir-scanner, disable it then
+# (tpg) using LTO with LLVM/clang produces broken g-ir-scanner, disable it then
 %define _disable_lto 1
 
 Summary:	GObject Introspection
@@ -315,6 +315,10 @@ a uniform, machine readable format.
 autoreconf -fiv
 
 %build
+# (tpg) LLVM/clang seems to miscompile binaries here
+export CC=gcc
+export CXX=g++
+
 # This super-broken crap could easily win the IOCCC contest.
 # Let's not fix it for python3, whoever wrote this code deserves
 # the punishment of having to fix it.
