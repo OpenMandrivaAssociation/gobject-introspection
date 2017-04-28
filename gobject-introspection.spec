@@ -6,13 +6,10 @@
 %define libname %mklibname girepository %{api} %{major}
 %define devname %mklibname -d girepository
 
-# (tpg) using LTO with LLVM/clang produces broken g-ir-scanner, disable it then
-%define _disable_lto 1
-
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.51.5
-Release:	2
+Release:	3
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -40,7 +37,6 @@ BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	python2-mako
-BuildRequires:	python2-six
 BuildRequires:	docbook-dtd-xml
 BuildRequires:	gtk-doc
 BuildRequires:	chrpath
@@ -315,10 +311,6 @@ a uniform, machine readable format.
 autoreconf -fiv
 
 %build
-# (tpg) LLVM/clang seems to miscompile binaries here
-export CC=gcc
-export CXX=g++
-
 # This super-broken crap could easily win the IOCCC contest.
 # Let's not fix it for python3, whoever wrote this code deserves
 # the punishment of having to fix it.
