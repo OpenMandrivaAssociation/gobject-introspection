@@ -31,7 +31,7 @@ BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
 BuildRequires:	pkgconfig(gio-unix-2.0)
-BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(glib-2.0) >= 2.54.0
 BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
