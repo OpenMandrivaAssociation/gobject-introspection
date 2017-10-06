@@ -8,7 +8,7 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.51.5
+Version:	1.54.1
 Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
@@ -20,6 +20,7 @@ Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
 Patch0:		g-ir-dep-tool.patch
+Patch1:		gobject-introspection-1.54.1-lto.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -30,13 +31,14 @@ BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
 BuildRequires:	pkgconfig(gio-unix-2.0)
-BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(glib-2.0) >= 2.54.0
 BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	python2-mako
+BuildRequires:	docbook-dtd-xml
 BuildRequires:	gtk-doc
 BuildRequires:	chrpath
 # these are needed by the g-ir-dep-tool
@@ -354,6 +356,7 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_libdir}/%{name}
 %{_datadir}/gtk-doc/html/gi
 %dir %{_datadir}/gir-%{api}
+%{_datadir}/gir-%{api}/gir-1.2.rnc
 %{_datadir}/gir-%{api}/DBus-1.0.gir
 %{_datadir}/gir-%{api}/DBusGLib-1.0.gir
 %{_datadir}/gir-%{api}/GIRepository-2.0.gir
