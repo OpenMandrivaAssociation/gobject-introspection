@@ -324,8 +324,8 @@ export PYTHON=%{_bindir}/python2
 
 %install
 %makeinstall_std
-install -D %{SOURCE1} %{buildroot}%{_rpmhome}/gi-find-deps.sh
-install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmhome}/macros.d/typelib
+install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
+install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmconfigdir}/macros.d/typelib
 
 # comparing, if we provide all the symbols expected.
 %if %{build_bootstrap}
@@ -375,5 +375,5 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/xrandr-1.3.gir
 %{_datadir}/gir-%{api}/win32-1.0.gir
 %{_mandir}/man1/*
-%{_rpmhome}/gi-find-deps.sh
-%{_rpmhome}/macros.d/typelib
+%{_rpmconfigdir}/gi-find-deps.sh
+%{_rpmconfigdir}/macros.d/typelib
