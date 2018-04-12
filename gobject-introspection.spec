@@ -329,8 +329,9 @@ install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmconfigdir}/macros.d/typelib
 
 # comparing, if we provide all the symbols expected.
 %if %{build_bootstrap}
-ls %{buildroot}%{_libdir}/girepository-1.0/*.typelib | sh %{SOURCE1} -P > gobject-introspection-typelib.installed
-diff -u -s %{SOURCE3} gobject-introspection-typelib.installed
+ls %{buildroot}%{_libdir}/girepository-1.0/*.typelib | sh %{SOURCE1} -P |sort > gobject-introspection-typelib.installed
+cat %{SOURCE3} |sort >gobject-introspection-typelib.reference
+diff -u -s gobject-introspection-typelib.reference gobject-introspection-typelib.installed
 %endif
 
 # Remove lib64 rpaths
