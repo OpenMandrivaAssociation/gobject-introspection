@@ -1,0 +1,3 @@
+%__typelib_provides	%{_rpmconfigdir}/gi-find-deps.sh -P
+%__typelib_requires	%{_rpmconfigdir}/gi-find-deps.sh -R
+%__typelib_path		^%{_libdir}/girepository-1.0/.*.typelib$

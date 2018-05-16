@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.56.1
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -18,6 +18,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%{url_ver}
 Source1:	gi-find-deps.sh
 Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
+Source4:	typelib.attr
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
 Patch0:		g-ir-dep-tool.patch
 Patch1:		gobject-introspection-1.54.1-lto.patch
@@ -325,7 +326,8 @@ export PYTHON=%{_bindir}/python2
 %install
 %makeinstall_std
 install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
-install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmconfigdir}/macros.d/typelib
+install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmconfigdir}/macros.d/macros.typelib
+install -D %{SOURCE4} -m 0644 %{buildroot}%{_rpmconfigdir}/fileattrs/typelib.attr
 
 # comparing, if we provide all the symbols expected.
 %if %{build_bootstrap}
@@ -377,4 +379,5 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/win32-1.0.gir
 %{_mandir}/man1/*
 %{_rpmconfigdir}/gi-find-deps.sh
-%{_rpmconfigdir}/macros.d/typelib
+%{_rpmconfigdir}/macros.d/macros.typelib
+%{_rpmconfigdir}/fileattrs/typelib.attr
