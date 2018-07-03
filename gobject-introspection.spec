@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.56.1
-Release:	2
+Release:	3
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -27,7 +27,7 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
 # this could be removed if the typelib stuff is backported
-BuildRequires:	rpm >= 5.4.7-14
+BuildRequires:	rpm >= 2:4.14.1-0.20
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
@@ -48,7 +48,7 @@ BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
 BuildRequires:	gobject-introspection >= 1.32.0-2
 %endif
 
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
 Conflicts:	%mklibname girepository 1.0 0 < 0.6.10-5
 %rename		gir-repository
 
@@ -66,6 +66,7 @@ a uniform, machine readable format.
 Group:		System/Libraries
 Summary:	GObject Introspection shared library
 Conflicts:	%{name} < 0.6.8-2
+Requires:	%{name} >= %{EVRD}
 
 %description -n %{libname}
 The goal of the project is to describe the APIs and  collect them in
@@ -78,6 +79,9 @@ a uniform, machine readable format.
 Summary: GObject Introspection interface description for glib
 Group: System/Libraries
 Conflicts: %{name} < 1.36.0-2
+Requires: %{name} >= %{EVRD}
+Requires: glib2
+Requires: gio2.0
 
 %description -n %{girglibname}
 GObject Introspection interface description for glib.
@@ -123,7 +127,7 @@ GObject Introspection interface description for dbusglib.
 Summary: GObject Introspection interface description for girepository
 Group: System/Libraries
 Conflicts: %{name} < 1.36.0-2
-Requires: %{libname} = %{version}-%{release}
+Requires: %{libname} = %{EVRD}
 
 %description -n %{girgirepositoryname}
 GObject Introspection interface description for girepository.
@@ -187,7 +191,6 @@ GObject Introspection interface description for freetype.
 %files -n %{girfreetypename}
 %{_libdir}/girepository-1.0/freetype2-2.0.typelib
 
-
 #---------------------------------------------------------------
 %define girlibxml2name %mklibname xml2-gir 2.0
 
@@ -216,7 +219,6 @@ GObject Introspection interface description for xfixes.
 
 %files -n %{girxfixesname}
 %{_libdir}/girepository-1.0/xfixes-4.0.typelib
-
 
 #---------------------------------------------------------------
 %define girxftname %mklibname xft-gir 2.0
@@ -260,7 +262,6 @@ GObject Introspection interface description for xrandr.
 %files -n %{girxrandrname}
 %{_libdir}/girepository-1.0/xrandr-1.3.typelib
 
-
 #---------------------------------------------------------------
 %define girwin32name %mklibname win32-gir 1.0
 
@@ -278,30 +279,31 @@ GObject Introspection interface description for win32.
 Group:		Development/C
 Summary:	GObject Introspection development libraries
 # these two pkgs are needed for typelib requires generation
-Requires:	%{name} = %{version}-%{release}
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
+Requires:	%{libname} = %{EVRD}
 #gw /usr/bin/libtool is called in giscanner
 Requires:	libtool
 # gi-find-deps.sh uses pcregrep
 Requires:	pcre
-Provides:	libgirepository-devel = %{version}-%{release}
-Provides:	girepository-devel = %{version}-%{release}
-Provides:	%{name}-devel = %{version}-%{release}
-Requires:       %{libname} = %{version}-%{release}
-Requires:	%{girglibname} = %{version}-%{release}
-Requires:	%{girdbusname} = %{version}-%{release}
-Requires:	%{girdbusglibname} = %{version}-%{release}
-Requires:	%{girgirepositoryname} = %{version}-%{release}
-Requires:	%{girglname} = %{version}-%{release}
-Requires:	%{gircaironame} = %{version}-%{release}
-Requires:	%{girfontconfigname} = %{version}-%{release}
-Requires:	%{girfreetypename} = %{version}-%{release}
-Requires:	%{girlibxml2name} = %{version}-%{release}
-Requires:	%{girxfixesname} = %{version}-%{release}
-Requires:	%{girxftname} = %{version}-%{release}
-Requires:	%{girxlibname} = %{version}-%{release}
-Requires:	%{girxrandrname} = %{version}-%{release}
-Requires:	%{girwin32name} = %{version}-%{release}
+Requires:	python2-mako
+Provides:	libgirepository-devel = %{EVRD}
+Provides:	girepository-devel = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
+Requires:	%{libname} = %{EVRD}
+Requires:	%{girglibname} = %{EVRD}
+Requires:	%{girdbusname} = %{EVRD}
+Requires:	%{girdbusglibname} = %{EVRD}
+Requires:	%{girgirepositoryname} = %{EVRD}
+Requires:	%{girglname} = %{EVRD}
+Requires:	%{gircaironame} = %{EVRD}
+Requires:	%{girfontconfigname} = %{EVRD}
+Requires:	%{girfreetypename} = %{EVRD}
+Requires:	%{girlibxml2name} = %{EVRD}
+Requires:	%{girxfixesname} = %{EVRD}
+Requires:	%{girxftname} = %{EVRD}
+Requires:	%{girxlibname} = %{EVRD}
+Requires:	%{girxrandrname} = %{EVRD}
+Requires:	%{girwin32name} = %{EVRD}
 
 %description -n %{devname}
 The goal of the project is to describe the APIs and  collect them in
