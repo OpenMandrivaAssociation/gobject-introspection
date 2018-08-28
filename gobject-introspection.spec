@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.56.1
-Release:	3
+Release:	4
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -79,6 +79,7 @@ a uniform, machine readable format.
 Summary: GObject Introspection interface description for glib
 Group: System/Libraries
 Conflicts: %{name} < 1.36.0-2
+Provides: glib-gir = %{EVRD}
 Requires: %{name} >= %{EVRD}
 Requires: glib2
 Requires: gio2.0
