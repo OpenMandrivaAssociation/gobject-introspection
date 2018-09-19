@@ -40,6 +40,7 @@ BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	python2-mako
+BuildRequires:	python2-markdown
 BuildRequires:	docbook-dtd-xml
 BuildRequires:	gtk-doc
 BuildRequires:	chrpath
