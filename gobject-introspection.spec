@@ -8,8 +8,8 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.56.1
-Release:	4
+Version:	1.58.0
+Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -59,7 +59,7 @@ Conflicts:	%mklibname girepository 1.0 0 < 0.6.10-5
 %endif
 
 %description
-The goal of the project is to describe the APIs and  collect them in
+The goal of the project is to describe the APIs and collect them in
 a uniform, machine readable format.
 
 %package -n	%{libname}
@@ -69,7 +69,7 @@ Conflicts:	%{name} < 0.6.8-2
 Requires:	%{name} >= %{EVRD}
 
 %description -n %{libname}
-The goal of the project is to describe the APIs and  collect them in
+The goal of the project is to describe the APIs and collect them in
 a uniform, machine readable format.
 
 #---------------------------------------------------------------
@@ -307,12 +307,11 @@ Requires:	%{girxrandrname} = %{EVRD}
 Requires:	%{girwin32name} = %{EVRD}
 
 %description -n %{devname}
-The goal of the project is to describe the APIs and  collect them in
+The goal of the project is to describe the APIs and collect them in
 a uniform, machine readable format.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 autoreconf -fiv
 
 %build
@@ -324,10 +323,10 @@ export PYTHON=%{_bindir}/python2
     --enable-doctool \
     --enable-gtk-doc
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
 install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmconfigdir}/macros.d/macros.typelib
 install -D %{SOURCE4} -m 0644 %{buildroot}%{_rpmconfigdir}/fileattrs/typelib.attr
