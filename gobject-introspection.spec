@@ -26,6 +26,7 @@ Patch1:		gobject-introspection-1.54.1-lto.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
+BuildRequires:	autoconf-archive
 # this could be removed if the typelib stuff is backported
 BuildRequires:	rpm >= 2:4.14.1-0.20
 BuildRequires:	pkgconfig(cairo)
