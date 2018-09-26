@@ -346,7 +346,7 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-generate
 chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 
 %files
-%doc README NEWS TODO AUTHORS
+%doc NEWS TODO
 %dir %{_libdir}/girepository-%{api}
 
 %files -n %{libname}
