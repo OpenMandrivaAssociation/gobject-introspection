@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.58.0
-Release:	2
+Release:	3
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -39,6 +39,7 @@ BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python2)
+BuildRequires:  pkgconfig(vapigen)
 BuildRequires:	python2-mako
 BuildRequires:	python2-markdown
 BuildRequires:	docbook-dtd-xml
