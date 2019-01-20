@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.58.3
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -331,7 +331,7 @@ export PYTHON=%{_bindir}/python2
 %install
 %make_install
 install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
-install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmconfigdir}/macros.d/macros.typelib
+install -D %{SOURCE2} -m 0644 %{buildroot}%{_sys_macros_dir}/typelib.macros
 install -D %{SOURCE4} -m 0644 %{buildroot}%{_rpmconfigdir}/fileattrs/typelib.attr
 
 # comparing, if we provide all the symbols expected.
@@ -384,5 +384,5 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/win32-1.0.gir
 %{_mandir}/man1/*
 %{_rpmconfigdir}/gi-find-deps.sh
-%{_rpmconfigdir}/macros.d/macros.typelib
+%{_sys_macros_dir}/typelib.macros
 %{_rpmconfigdir}/fileattrs/typelib.attr
