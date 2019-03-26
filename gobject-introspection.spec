@@ -318,6 +318,9 @@ a uniform, machine readable format.
 autoreconf -fiv
 
 %build
+# HACK HACK HACK
+# remove me
+export  lt_cv_sys_global_symbol_pipe="sed -n -e 's/^.*[  ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[         ][      ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p'"
 # This super-broken crap could easily win the IOCCC contest.
 # Let's not fix it for python3, whoever wrote this code deserves
 # the punishment of having to fix it.
