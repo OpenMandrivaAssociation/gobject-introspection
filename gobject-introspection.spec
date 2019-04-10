@@ -29,6 +29,7 @@ BuildRequires:	libtool
 BuildRequires:	autoconf-archive
 # this could be removed if the typelib stuff is backported
 BuildRequires:	rpm >= 2:4.14.1-0.20
+BuildRequires:  python-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
@@ -40,8 +41,8 @@ BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python2)
 #BuildRequires:  pkgconfig(vapigen)
-BuildRequires:	python2-mako
-BuildRequires:	python2-markdown
+BuildRequires:	python-mako
+BuildRequires:	python-markdown
 BuildRequires:	docbook-dtd-xml
 BuildRequires:	gtk-doc
 BuildRequires:	chrpath
