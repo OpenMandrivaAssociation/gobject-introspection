@@ -8,8 +8,8 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.58.3
-Release:	2
+Version:	1.60.1
+Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -22,6 +22,7 @@ Source4:	typelib.attr
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
 Patch0:		g-ir-dep-tool.patch
 Patch1:		gobject-introspection-1.54.1-lto.patch
+Patch2:     python3-linking.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -38,10 +39,10 @@ BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
-BuildRequires:	pkgconfig(python2)
+BuildRequires:	pkgconfig(python)
 #BuildRequires:  pkgconfig(vapigen)
-BuildRequires:	python2-mako
-BuildRequires:	python2-markdown
+BuildRequires:	python-mako
+BuildRequires:	python-markdown
 BuildRequires:	docbook-dtd-xml
 BuildRequires:	gtk-doc
 BuildRequires:	chrpath
@@ -324,7 +325,7 @@ autoreconf -fiv
 # This super-broken crap could easily win the IOCCC contest.
 # Let's not fix it for python3, whoever wrote this code deserves
 # the punishment of having to fix it.
-export PYTHON=%{_bindir}/python2
+export PYTHON=%{_bindir}/python3
 %configure \
     --enable-doctool \
     --enable-gtk-doc

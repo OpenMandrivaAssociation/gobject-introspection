@@ -1,0 +1,29 @@
+From 492daa33c7866b8a3877fb9452ccc2463cc208ff Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jani=20V=C3=A4limaa?= <wally@mageia.org>
+Date: Fri, 8 Mar 2019 16:43:22 +0200
+Subject: [PATCH] Fix linking against python3
+
+We need same fix as Windows as we are building python3 in shared mode.
+---
+ giscanner/meson.build | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/giscanner/meson.build b/giscanner/meson.build
+index 6ae3406..2f3a23b 100644
+--- a/giscanner/meson.build
++++ b/giscanner/meson.build
+@@ -98,11 +98,7 @@ giscanner_lib = static_library('giscanner',
+ )
+ 
+ # https://github.com/mesonbuild/meson/issues/4117
+-if host_machine.system() == 'windows'
+-  python_ext_dep = python.dependency()
+-else
+-  python_ext_dep = python.dependency().partial_dependency(compile_args: true)
+-endif
++python_ext_dep = python.dependency()
+ 
+ giscanner_pymod = python.extension_module('_giscanner', ['giscannermodule.c'],
+   link_with: giscanner_lib,
+-- 
+2.21.0
