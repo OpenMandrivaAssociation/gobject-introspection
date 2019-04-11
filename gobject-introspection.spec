@@ -22,6 +22,7 @@ Source4:	typelib.attr
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
 Patch0:		g-ir-dep-tool.patch
 Patch1:		gobject-introspection-1.54.1-lto.patch
+Patch2:     python3-linking.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -29,7 +30,6 @@ BuildRequires:	libtool
 BuildRequires:	autoconf-archive
 # this could be removed if the typelib stuff is backported
 BuildRequires:	rpm >= 2:4.14.1-0.20
-BuildRequires:  python-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
@@ -39,7 +39,7 @@ BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
-BuildRequires:	pkgconfig(python2)
+BuildRequires:	pkgconfig(python)
 #BuildRequires:  pkgconfig(vapigen)
 BuildRequires:	python-mako
 BuildRequires:	python-markdown
@@ -325,7 +325,7 @@ autoreconf -fiv
 # This super-broken crap could easily win the IOCCC contest.
 # Let's not fix it for python3, whoever wrote this code deserves
 # the punishment of having to fix it.
-export PYTHON=%{_bindir}/python2
+export PYTHON=%{_bindir}/python3
 %configure \
     --enable-doctool \
     --enable-gtk-doc
