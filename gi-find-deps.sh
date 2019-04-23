@@ -215,7 +215,7 @@ function inList() {
   return 1
 }
 
-x64bitarch="x86_64 ppc64 ppc64le s390x ia64 aarch64"
+x64bitarch="x86_64 ppc64 ppc64le s390x ia64 aarch64 znver1 riscv64"
 
 export RPM_BUILD_ROOT=$2
 

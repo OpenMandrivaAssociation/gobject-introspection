@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.60.1
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -22,12 +22,12 @@ Source4:	typelib.attr
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
 Patch0:		g-ir-dep-tool.patch
 Patch1:		gobject-introspection-1.54.1-lto.patch
-Patch2:     python3-linking.patch
+Patch2:		python3-linking.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
-BuildRequires:	autoconf-archive
+BuildRequires:	meson
 # this could be removed if the typelib stuff is backported
 BuildRequires:	rpm >= 2:4.14.1-0.20
 BuildRequires:	pkgconfig(cairo)
@@ -316,24 +316,14 @@ a uniform, machine readable format.
 
 %prep
 %autosetup -p1
-autoreconf -fiv
 
 %build
-# HACK HACK HACK
-# remove me
-#export  lt_cv_sys_global_symbol_pipe="sed -n -e 's/^.*[  ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[         ][      ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p'"
-# This super-broken crap could easily win the IOCCC contest.
-# Let's not fix it for python3, whoever wrote this code deserves
-# the punishment of having to fix it.
-export PYTHON=%{_bindir}/python3
-%configure \
-    --enable-doctool \
-    --enable-gtk-doc
-
-%make_build
+%meson -Ddoctool=true -Dgtk_doc=true -Dpython=%{__python3}
+%meson_build
 
 %install
-%make_install
+%meson_install
+
 install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
 install -D %{SOURCE2} -m 0644 %{buildroot}%{_sys_macros_dir}/typelib.macros
 install -D %{SOURCE4} -m 0644 %{buildroot}%{_rpmconfigdir}/fileattrs/typelib.attr
