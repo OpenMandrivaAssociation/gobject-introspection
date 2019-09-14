@@ -8,7 +8,7 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.60.2
+Version:	1.62.0
 Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
@@ -20,7 +20,7 @@ Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
 Source4:	typelib.attr
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
-Patch0:		g-ir-dep-tool.patch
+#Patch0:		g-ir-dep-tool.patch
 Patch1:		gobject-introspection-1.54.1-lto.patch
 Patch2:		python3-linking.patch
 
@@ -197,6 +197,21 @@ GObject Introspection interface description for freetype.
 %{_libdir}/girepository-1.0/freetype2-2.0.typelib
 
 #---------------------------------------------------------------
+
+%define girvulkanname %mklibname vulkan-gir 1.0
+
+%package -n %{girvulkanname}
+Summary:	GObject Introspection interface description for Vulkan
+Group:		System/Libraries
+Requires:	libglvnd-GL
+
+%description -n %{girvulkanname}
+GObject Introspection interface description for Vulkan.
+
+%files -n %{girvulkanname}
+%{_libdir}/girepository-1.0/Vulkan-1.0.typelib
+
+#---------------------------------------------------------------
 %define girlibxml2name %mklibname xml2-gir 2.0
 
 %package -n %{girlibxml2name}
@@ -303,6 +318,7 @@ Requires:	%{girglname} = %{EVRD}
 Requires:	%{gircaironame} = %{EVRD}
 Requires:	%{girfontconfigname} = %{EVRD}
 Requires:	%{girfreetypename} = %{EVRD}
+Requires: %{girvulkanname} = %{EVRD}
 Requires:	%{girlibxml2name} = %{EVRD}
 Requires:	%{girxfixesname} = %{EVRD}
 Requires:	%{girxftname} = %{EVRD}
@@ -370,6 +386,7 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/cairo-1.0.gir
 %{_datadir}/gir-%{api}/fontconfig-2.0.gir
 %{_datadir}/gir-%{api}/freetype2-2.0.gir
+%{_datadir}/gir-%{api}/Vulkan-1.0.gir
 %{_datadir}/gir-%{api}/libxml2-2.0.gir
 %{_datadir}/gir-%{api}/xfixes-4.0.gir
 %{_datadir}/gir-%{api}/xft-2.0.gir

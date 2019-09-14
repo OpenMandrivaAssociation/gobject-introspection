@@ -1,18 +1,17 @@
-From 492daa33c7866b8a3877fb9452ccc2463cc208ff Mon Sep 17 00:00:00 2001
+From 63c1d1c8d34ea1468acd3cf74f2e5a79d0928049 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jani=20V=C3=A4limaa?= <wally@mageia.org>
-Date: Fri, 8 Mar 2019 16:43:22 +0200
+Date: Mon, 2 Sep 2019 17:07:09 +0300
 Subject: [PATCH] Fix linking against python3
 
-We need same fix as Windows as we are building python3 in shared mode.
 ---
- giscanner/meson.build | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ giscanner/meson.build | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/giscanner/meson.build b/giscanner/meson.build
-index 6ae3406..2f3a23b 100644
+index a3b06f3..8a4dbc3 100644
 --- a/giscanner/meson.build
 +++ b/giscanner/meson.build
-@@ -98,11 +98,7 @@ giscanner_lib = static_library('giscanner',
+@@ -100,10 +100,10 @@ giscanner_lib = static_library('giscanner',
  )
  
  # https://github.com/mesonbuild/meson/issues/4117
@@ -20,10 +19,12 @@ index 6ae3406..2f3a23b 100644
 -  python_ext_dep = python.dependency()
 -else
 -  python_ext_dep = python.dependency().partial_dependency(compile_args: true)
--endif
-+python_ext_dep = python.dependency()
++python_ext_dep = dependency('python3-embed', required: false)
++
++if not python_ext_dep.found()
++  python_ext_dep = dependency('python3', required: false)
+ endif
  
- giscanner_pymod = python.extension_module('_giscanner', ['giscannermodule.c'],
-   link_with: giscanner_lib,
+ if not python_ext_dep.found()
 -- 
-2.21.0
+2.22.1
