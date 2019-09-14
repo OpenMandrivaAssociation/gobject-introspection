@@ -20,7 +20,7 @@ Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
 Source4:	typelib.attr
 # PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
-Patch0:		g-ir-dep-tool.patch
+#Patch0:		g-ir-dep-tool.patch
 Patch1:		gobject-introspection-1.54.1-lto.patch
 Patch2:		python3-linking.patch
 
