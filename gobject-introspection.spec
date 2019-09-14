@@ -203,7 +203,6 @@ GObject Introspection interface description for freetype.
 %package -n %{girvulkanname}
 Summary:	GObject Introspection interface description for Vulkan
 Group:		System/Libraries
-Requires:	libglvnd-GL
 
 %description -n %{girvulkanname}
 GObject Introspection interface description for Vulkan.
