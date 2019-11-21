@@ -9,7 +9,7 @@
 function split_name_version {
 base=$1
 tsymbol=${base%-*}
-# Sometimes we get a Requires on Gdk.Settings.foo, bebause you can directly use imports.gi.Gdk.Settings.Foo in Javascript.
+# Sometimes we get a Requires on Gdk.Settings.foo, because you can directly use imports.gi.Gdk.Settings.Foo in Javascript.
 # We know that the symbol in this case is called Gdk, so we cut everything after the . away.
 symbol=$(echo $tsymbol | awk -F. '{print $1}')
 version=${base#*-}
@@ -46,7 +46,7 @@ done
 
 function gresources_requires {
 # GNOME is embedding .js files into ELF binaries for faster startup.
-# As a result, we need to extract them and re'run the scanner over the
+# As a result, we need to extract them and re-run the scanner over the
 # embedded files.
 # We extract all the gresources embedded in ELF binaries and start
 # gi-find-deps.sh recusively over the extracted file list.
@@ -55,12 +55,12 @@ for resource in $($gresourcecmd list "$1" 2>/dev/null); do
   mkdir -p $tmpdir/$(dirname $resource)
   $gresourcecmd extract "$1" $resource > $tmpdir/$resource
 done
-find $tmpdir -type f | sh $0 -R
+find $tmpdir -type f | sort | sh $0 -R
 rm -rf "$tmpdir"
 }
 
 function python_requires {
-	for module in $(grep -h -P "from gi\.repository import (\w+)" $1 | sed -e 's:#.*::' -e 's:raise ImportError.*::' -e 's:.*"from gi.repository import .*".*::' | sed -e 's,from gi.repository import,,' -r -e 's:\s+$::g' -e 's:\s+as\s+\w+::g' -e 's:,: :g'); do
+	for module in $(grep -h -P "^\s*from gi\.repository import (\w+)" $1 | sed -e 's:#.*::' -e 's:raise ImportError.*::' -e 's:.*"from gi.repository import .*".*::' | sed -e 's,from gi.repository import,,' -r -e 's:\s+$::g' -e 's:\s+as\s+\w+::g' -e 's:,: :g'); do
 		split_name_version $module
 		print_req_prov
 		# Temporarly disabled... this is not true if the python code is written for python3... And there seems no real 'way' to identify this.
@@ -70,15 +70,32 @@ function python_requires {
 		split_name_version $module
 		print_req_prov
 	done
+        # python glue layers (/gi/overrides) import their typelibs slightly different
+	for module in $(grep -h -P -o "=\s+(get_introspection_module\(['\"][^'\"]+['\"]\))" $1 | sed -e 's:#.*::' -e 's:=.*get_introspection_module::' -e "s:[()\"' ]::g"); do
+		split_name_version $module
+		print_req_prov
+	done
 }
 
 function javascript_requires {
+  # parse the new import style in 3.32
+	for module in $(grep -r -h -A2 'const {' $1 | paste -s -d ' ' | grep '} = imports.gi;' | sed 's/imports.gi;.*/imports.gi;/' | awk -F '[{}]' '{print $(NF>1?NF-1:"")}' | tr ',' '\n' | tr -d ' ' | awk -F ':' '{print $1}'); do
+		split_name_version $module
+		print_req_prov
+	done
+  # parse the old import style before 3.32
 	for module in $(grep -h -P -o "imports\.gi\.([^\s'\";]+)" $1 | grep -v "imports\.gi\.version" | sed -r -e 's,\s+$,,g' -e 's,imports.gi.,,'); do
 		split_name_version $module
 		print_req_prov
 	done
 	for module in $(grep -h -P -o "imports\.gi\.versions.([^\s'\";]+)\s*=\s*['\"].+['\"]" $1 | \
 		sed -e 's:imports.gi.versions.::' -e "s:['\"]::g" -e 's:=:-:' -e 's: ::g'); do
+		split_name_version $module
+		print_req_prov
+	done
+    # This is, at the moment, specifically for Polari where a "const { Foo, Bar } = imports.gi;" is used.
+	for module in $(grep -h -E -o "\{ \w+(: \w+|, \w+)+ \} = imports.gi;" $1 | \
+        sed -r -e '0,/\w+:\s\w+/ s/:\s\w+//g' -e 's: = imports.gi;:: ; s:\{ :: ; s: \}:: ; s/,//g'); do
 		split_name_version $module
 		print_req_prov
 	done
@@ -142,7 +159,7 @@ function typelib_requires {
 	split_name_version $(basename $1 | sed 's,.typelib$,,')
 	oldIFS=$IFS
 	IFS=$'\n'
-	for req in $(g-ir-dep-tool $symbol $version); do
+	for req in $(g-ir-inspect --print-shlibs --print-typelibs $symbol --version $version); do
 		case $req in
 			typelib:*)
 				module=${req#typelib: }
@@ -168,8 +185,9 @@ function find_requires {
 #     from gi.repository import foo, bar
 # - in JS:
 #   . imports.gi.foo; [unversioned requirement of 'foo']
-#   . imports.gi.goo-1.0; [versioned requirement]
+#   . imports.gi.foo-1.0; [versioned requirement of 'foo']
 #   . imports.gi.versions.Gtk = '3.0';
+#   . const { foo, bar } = imports.gi;
 #   . The imports can be listed on one line, and we catch them.
 
 while read file; do
@@ -188,7 +206,7 @@ while read file; do
 			;;
 		*)
 			case $(file -b $file) in
-				Python\ script*)
+				*[Pp]ython*script*)
 					python_requires "$file"
 					;;
 				*ELF*)
@@ -215,14 +233,12 @@ function inList() {
   return 1
 }
 
-x64bitarch="x86_64 ppc64 ppc64le s390x ia64 aarch64 znver1 riscv64"
-
-export RPM_BUILD_ROOT=$2
+x64bitarch="x86_64 ppc64 ppc64le s390x ia64 aarch64 riscv64"
 
 for path in \
 	$(for tlpath in \
 	$(find ${RPM_BUILD_ROOT}/usr/lib64 ${RPM_BUILD_ROOT}/usr/lib /usr/lib64 /usr/lib -name '*.typelib' 2>/dev/null); do
-        	dirname $tlpath; done | uniq ); do
+		dirname $tlpath; done | sort --unique ); do
 	export GI_TYPELIB_PATH=$GI_TYPELIB_PATH:$path
 done
 

@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.62.0
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -19,8 +19,6 @@ Source1:	gi-find-deps.sh
 Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
 Source4:	typelib.attr
-# PATCH-FIX-UPSTREAM g-ir-dep-tool.patch bgo#665672 dimstar@opensuse.org -- Add g-ir-dep-tool to get further automatic dependencies.
-#Patch0:		g-ir-dep-tool.patch
 Patch1:		gobject-introspection-1.54.1-lto.patch
 Patch2:		python3-linking.patch
 
