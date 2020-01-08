@@ -1,6 +1,6 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
 
-%define build_bootstrap	0
+%define build_bootstrap 0
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
@@ -8,8 +8,8 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.62.0
-Release:	4
+Version:	1.63.1
+Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -78,13 +78,13 @@ a uniform, machine readable format.
 %define girglibname %mklibname glib-gir 2.0
 
 %package -n %{girglibname}
-Summary: GObject Introspection interface description for glib
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
-Provides: glib-gir = %{EVRD}
-Requires: %{name} >= %{EVRD}
-Requires: glib2
-Requires: gio2.0
+Summary:	GObject Introspection interface description for glib
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
+Provides:	glib-gir = %{EVRD}
+Requires:	%{name} >= %{EVRD}
+Requires:	glib2
+Requires:	gio2.0
 
 %description -n %{girglibname}
 GObject Introspection interface description for glib.
@@ -99,9 +99,9 @@ GObject Introspection interface description for glib.
 %define girdbusname %mklibname dbus-gir 1.0
 
 %package -n %{girdbusname}
-Summary: GObject Introspection interface description for dbus
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for dbus
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girdbusname}
 GObject Introspection interface description for dbus.
@@ -113,9 +113,9 @@ GObject Introspection interface description for dbus.
 %define girdbusglibname %mklibname dbusglib-gir 1.0
 
 %package -n %{girdbusglibname}
-Summary: GObject Introspection interface description for dbusglib
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for dbusglib
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girdbusglibname}
 GObject Introspection interface description for dbusglib.
@@ -127,10 +127,10 @@ GObject Introspection interface description for dbusglib.
 %define girgirepositoryname %mklibname girepository-gir 2.0
 
 %package -n %{girgirepositoryname}
-Summary: GObject Introspection interface description for girepository
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
-Requires: %{libname} = %{EVRD}
+Summary:	GObject Introspection interface description for girepository
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
+Requires:	%{libname} = %{EVRD}
 
 %description -n %{girgirepositoryname}
 GObject Introspection interface description for girepository.
@@ -142,9 +142,9 @@ GObject Introspection interface description for girepository.
 %define girglname %mklibname gl-gir 1.0
 
 %package -n %{girglname}
-Summary: GObject Introspection interface description for OpenGL
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for OpenGL
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girglname}
 GObject Introspection interface description for OpenGL.
@@ -156,9 +156,9 @@ GObject Introspection interface description for OpenGL.
 %define gircaironame %mklibname cairo-gir 1.0
 
 %package -n %{gircaironame}
-Summary: GObject Introspection interface description for cairo
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for cairo
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{gircaironame}
 GObject Introspection interface description for cairo.
@@ -170,9 +170,9 @@ GObject Introspection interface description for cairo.
 %define girfontconfigname %mklibname fontconfig-gir 2.0
 
 %package -n %{girfontconfigname}
-Summary: GObject Introspection interface description for fontconfig
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for fontconfig
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girfontconfigname}
 GObject Introspection interface description for fontconfig.
@@ -184,9 +184,9 @@ GObject Introspection interface description for fontconfig.
 %define girfreetypename %mklibname freetype-gir 2.0
 
 %package -n %{girfreetypename}
-Summary: GObject Introspection interface description for freetype
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for freetype
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girfreetypename}
 GObject Introspection interface description for freetype.
@@ -212,10 +212,10 @@ GObject Introspection interface description for Vulkan.
 %define girlibxml2name %mklibname xml2-gir 2.0
 
 %package -n %{girlibxml2name}
-Summary: GObject Introspection interface description for libxml2
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
-Obsoletes: %{_lib}libxml2-gir2.0 < 1.36.0-2
+Summary:	GObject Introspection interface description for libxml2
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
+Obsoletes:	%{_lib}libxml2-gir2.0 < 1.36.0-2
 
 %description -n %{girlibxml2name}
 GObject Introspection interface description for libxml2.
@@ -227,9 +227,9 @@ GObject Introspection interface description for libxml2.
 %define girxfixesname %mklibname xfixes-gir 4.0
 
 %package -n %{girxfixesname}
-Summary: GObject Introspection interface description for xfixes
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for xfixes
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girxfixesname}
 GObject Introspection interface description for xfixes.
@@ -241,9 +241,9 @@ GObject Introspection interface description for xfixes.
 %define girxftname %mklibname xft-gir 2.0
 
 %package -n %{girxftname}
-Summary: GObject Introspection interface description for xft
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for xft
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girxftname}
 GObject Introspection interface description for xft.
@@ -255,9 +255,9 @@ GObject Introspection interface description for xft.
 %define girxlibname %mklibname xlib-gir 2.0
 
 %package -n %{girxlibname}
-Summary: GObject Introspection interface description for xlib
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for xlib
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girxlibname}
 GObject Introspection interface description for xlib.
@@ -269,9 +269,9 @@ GObject Introspection interface description for xlib.
 %define girxrandrname %mklibname xrandr-gir 1.3
 
 %package -n %{girxrandrname}
-Summary: GObject Introspection interface description for xrandr
-Group: System/Libraries
-Conflicts: %{name} < 1.36.0-2
+Summary:	GObject Introspection interface description for xrandr
+Group:		System/Libraries
+Conflicts:	%{name} < 1.36.0-2
 
 %description -n %{girxrandrname}
 GObject Introspection interface description for xrandr.
@@ -283,8 +283,8 @@ GObject Introspection interface description for xrandr.
 %define girwin32name %mklibname win32-gir 1.0
 
 %package -n %{girwin32name}
-Summary: GObject Introspection interface description for win32
-Group: System/Libraries
+Summary:	GObject Introspection interface description for win32
+Group:		System/Libraries
 
 %description -n %{girwin32name}
 GObject Introspection interface description for win32.
@@ -292,7 +292,7 @@ GObject Introspection interface description for win32.
 %files -n %{girwin32name}
 %{_libdir}/girepository-1.0/win32-1.0.typelib
 
-%package -n	%{devname}
+%package -n %{devname}
 Group:		Development/C
 Summary:	GObject Introspection development libraries
 # these two pkgs are needed for typelib requires generation
@@ -302,7 +302,8 @@ Requires:	%{libname} = %{EVRD}
 Requires:	libtool
 # gi-find-deps.sh uses pcregrep
 Requires:	pcre
-Requires:	python2-mako
+Requires:	file
+Requires:	pkgconfig(python)
 Provides:	libgirepository-devel = %{EVRD}
 Provides:	girepository-devel = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
@@ -315,7 +316,7 @@ Requires:	%{girglname} = %{EVRD}
 Requires:	%{gircaironame} = %{EVRD}
 Requires:	%{girfontconfigname} = %{EVRD}
 Requires:	%{girfreetypename} = %{EVRD}
-Requires: %{girvulkanname} = %{EVRD}
+Requires:	%{girvulkanname} = %{EVRD}
 Requires:	%{girlibxml2name} = %{EVRD}
 Requires:	%{girxfixesname} = %{EVRD}
 Requires:	%{girxftname} = %{EVRD}
