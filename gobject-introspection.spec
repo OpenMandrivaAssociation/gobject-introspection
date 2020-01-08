@@ -332,7 +332,7 @@ a uniform, machine readable format.
 %autosetup -p1
 
 %build
-%meson -Ddoctool=true -Dgtk_doc=true -Dpython=%{__python3}
+%meson -Ddoctool=enabled -Dgtk_doc=true -Dpython=%{__python3}
 %meson_build
 
 %install
