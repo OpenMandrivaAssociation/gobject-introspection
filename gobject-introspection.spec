@@ -8,7 +8,7 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.63.1
+Version:	1.63.2
 Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
@@ -19,7 +19,7 @@ Source1:	gi-find-deps.sh
 Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
 Source4:	typelib.attr
-Patch1:		gobject-introspection-1.54.1-lto.patch
+#Patch1:		gobject-introspection-1.54.1-lto.patch
 Patch2:		python3-linking.patch
 
 BuildRequires:	bison
