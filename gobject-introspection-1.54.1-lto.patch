@@ -1,12 +1,11 @@
 --- gobject-introspection-1.54.1/giscanner/dumper.py.omv~	2017-10-04 12:04:57.998371734 +0200
 +++ gobject-introspection-1.54.1/giscanner/dumper.py	2017-10-04 12:05:59.809225175 +0200
-@@ -270,6 +270,9 @@ class DumpCompiler(object):
+@@ -255,6 +255,9 @@ class DumpCompiler(object):
              for ldflag in shlex.split(os.environ.get('LDFLAGS', '')):
                  args.append(ldflag)
  
 +        # Make sure we can deal with LTO bytecode in object files...
 +        args.append('-flto')
 +
-         if not self._options.quiet:
-             print("g-ir-scanner: link: %s" % (
-                 subprocess.list2cmdline(args), ))
+        dll_dirs = utils.dll_dirs()
+        dll_dirs.add_dll_dirs(self._packages)
