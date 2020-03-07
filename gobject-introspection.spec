@@ -19,7 +19,7 @@ Source1:	gi-find-deps.sh
 Source2:	typelib.macros
 Source3:	gobject-introspection-typelib.template
 Source4:	typelib.attr
-Patch1:		gobject-introspection-1.54.1-lto.patch
+#Patch1:		gobject-introspection-1.54.1-lto.patch
 Patch2:		python3-linking.patch
 
 BuildRequires:	bison
