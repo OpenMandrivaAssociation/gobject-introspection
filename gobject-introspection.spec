@@ -11,7 +11,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.68.0
-Release:	3
+Release:	4
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -334,6 +334,8 @@ a uniform, machine readable format.
 %autosetup -p1
 
 %build
+export CC=gcc
+export CXX=g++
 %meson -Ddoctool=enabled -Dgtk_doc=true -Dpython=%{__python3}
 %meson_build
 
