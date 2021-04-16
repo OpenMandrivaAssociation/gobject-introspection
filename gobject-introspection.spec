@@ -14,12 +14,6 @@ License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%{url_ver}/%{name}-%{version}.tar.xz
-# gi-find-deps.sh is a rpm helper for Provides and Requires. Script creates typelib()-style Provides/Requires.
-Source1:	gi-find-deps.sh
-Source2:	typelib.macros
-Source3:	gobject-introspection-typelib.template
-Source4:	typelib.attr
-#Patch1:		gobject-introspection-1.54.1-lto.patch
 Patch2:		python3-linking.patch
 
 BuildRequires:	bison
@@ -53,12 +47,6 @@ BuildRequires:	gobject-introspection >= 1.32.0-2
 Requires:	%{libname} = %{EVRD}
 Conflicts:	%mklibname girepository 1.0 0 < 0.6.10-5
 %rename		gir-repository
-
-# Provide typelib() symbols based on gobject-introspection-typelib.template
-# The template is checked during install if it matches the installed *.typelib files.
-%if %{build_bootstrap}
-%(cat %{SOURCE3} | awk '{ print "Provides: " $0}')
-%endif
 
 %description
 The goal of the project is to describe the APIs and collect them in
@@ -338,21 +326,8 @@ a uniform, machine readable format.
 %install
 %meson_install
 
-install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
-install -D %{SOURCE2} -m 0644 %{buildroot}%{_sys_macros_dir}/typelib.macros
-install -D %{SOURCE4} -m 0644 %{buildroot}%{_rpmconfigdir}/fileattrs/typelib.attr
-
-# comparing, if we provide all the symbols expected.
-%if %{build_bootstrap}
-ls %{buildroot}%{_libdir}/girepository-1.0/*.typelib | sh %{SOURCE1} -P |sort > gobject-introspection-typelib.installed
-cat %{SOURCE3} |sort >gobject-introspection-typelib.reference
-diff -u -s gobject-introspection-typelib.reference gobject-introspection-typelib.installed
-%endif
-
-# Remove lib64 rpaths
-chrpath --delete %{buildroot}%{_bindir}/g-ir-compiler
-chrpath --delete %{buildroot}%{_bindir}/g-ir-generate
-chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
+# tool was renamed
+ln -s g-ir-inspect %{buildroot}%{_bindir}/g-ir-dep-tool
 
 %files
 %doc NEWS TODO
@@ -392,6 +367,3 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/xrandr-1.3.gir
 %{_datadir}/gir-%{api}/win32-1.0.gir
 %{_mandir}/man1/*
-%{_rpmconfigdir}/gi-find-deps.sh
-%{_sys_macros_dir}/typelib.macros
-%{_rpmconfigdir}/fileattrs/typelib.attr
