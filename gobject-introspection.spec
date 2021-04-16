@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.68.0
-Release:	1
+Release:	10
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -339,8 +339,8 @@ a uniform, machine readable format.
 %meson_install
 
 install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
-install -D %{SOURCE2} -m 0644 %{buildroot}%{_sys_macros_dir}/typelib.macros
-install -D %{SOURCE4} -m 0644 %{buildroot}%{_rpmconfigdir}/fileattrs/typelib.attr
+install -D %{SOURCE2} -m 0644 %{buildroot}%{_rpmmacrodir}/typelib.macros
+install -D %{SOURCE4} -m 0644 %{buildroot}%{_fileattrsdir}/typelib.attr
 
 # comparing, if we provide all the symbols expected.
 %if %{build_bootstrap}
@@ -393,5 +393,5 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/win32-1.0.gir
 %{_mandir}/man1/*
 %{_rpmconfigdir}/gi-find-deps.sh
-%{_sys_macros_dir}/typelib.macros
-%{_rpmconfigdir}/fileattrs/typelib.attr
+%{_rpmmacrodir}/typelib.macros
+%{_fileattrsdir}/typelib.attr
