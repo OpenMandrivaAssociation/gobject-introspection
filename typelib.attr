@@ -1,4 +1,4 @@
 %__typelib_provides		%{_rpmconfigdir}/gi-find-deps.sh -P
 %__typelib_requires		%{_rpmconfigdir}/gi-find-deps.sh -R
 %__typelib_path			^(%{_libdir}/.*\.typelib)|(.*\.gresource)|(.*\.py)|(.*\.js)|(.*\.so)|(%{_bindir}/.*)$
-%__typelib_excluide_path	^%{_docdir}/packages/
+%__typelib_exclude_path		^%{_docdir}/packages/
