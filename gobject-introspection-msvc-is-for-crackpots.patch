@@ -1,0 +1,33 @@
+diff -up gobject-introspection-1.72.0/giscanner/ccompiler.py.omv~ gobject-introspection-1.72.0/giscanner/ccompiler.py
+--- gobject-introspection-1.72.0/giscanner/ccompiler.py.omv~	2022-08-17 21:08:06.454270424 +0200
++++ gobject-introspection-1.72.0/giscanner/ccompiler.py	2022-08-17 21:14:09.436556551 +0200
+@@ -26,7 +26,6 @@ import tempfile
+ import sys
+ import distutils
+ 
+-from distutils.msvccompiler import MSVCCompiler
+ from distutils.unixccompiler import UnixCCompiler
+ from distutils.cygwinccompiler import Mingw32CCompiler
+ from distutils.sysconfig import get_config_vars
+@@ -425,7 +424,7 @@ class CCompiler(object):
+             return self.compiler.linker_exe
+ 
+     def check_is_msvc(self):
+-        return isinstance(self.compiler, MSVCCompiler)
++        return False
+ 
+     # Private APIs
+     def _set_cpp_options(self, options):
+@@ -447,12 +446,6 @@ class CCompiler(object):
+                     macro_name = macro[:macro_index]
+                     macro_value = macro[macro_index + 1:]
+ 
+-                    # Somehow the quotes used in defining
+-                    # macros for compiling using distutils
+-                    # get dropped for MSVC builds, so
+-                    # escape the escape character.
+-                    if isinstance(self.compiler, MSVCCompiler):
+-                        macro_value = macro_value.replace('\"', '\\\"')
+                 macros.append((macro_name, macro_value))
+             elif option.startswith('-U'):
+                 macros.append((option[len('-U'):],))
