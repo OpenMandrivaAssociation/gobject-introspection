@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.78.1
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -308,8 +308,8 @@ Requires:	%{name} = %{EVRD}
 Requires:	%{libname} = %{EVRD}
 #gw /usr/bin/libtool is called in giscanner
 Requires:	libtool
-# gi-find-deps.sh uses pcregrep
-Requires:	pcre
+# gi-find-deps.sh uses pcre2grep
+Requires:	pcre2
 Requires:	file
 Requires:	pkgconfig(python)
 Provides:	libgirepository-devel = %{EVRD}
