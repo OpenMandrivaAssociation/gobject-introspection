@@ -1,0 +1,2 @@
+# seems to be bogus
+addFilter("E: lib-package-without-%mklibname")

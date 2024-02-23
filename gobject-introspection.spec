@@ -46,7 +46,6 @@ BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python)
-#BuildRequires:  pkgconfig(vapigen)
 BuildRequires:	python-mako
 BuildRequires:	python-markdown
 BuildRequires:	docbook-dtd-xml
