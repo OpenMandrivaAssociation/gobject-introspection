@@ -35,7 +35,7 @@ BuildRequires:	flex
 BuildRequires:	libtool
 BuildRequires:	meson
 # this could be removed if the typelib stuff is backported
-BuildRequires:	rpm >= 2:4.14.1-0.20
+BuildRequires:	rpm
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
 BuildRequires:	pkgconfig(gio-2.0)
