@@ -65,6 +65,7 @@ BuildRequires:	gobject-introspection >= 1.32.0-2
 
 %if %{with compat32}
 BuildRequires:	devel(libpcre2-8)
+BuildRequires:	devel(libglib-2.0)
 %endif
 
 
