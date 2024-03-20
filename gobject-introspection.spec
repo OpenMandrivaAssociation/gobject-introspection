@@ -67,6 +67,7 @@ BuildRequires:	gobject-introspection >= 1.32.0-2
 BuildRequires:	devel(libpcre2-8)
 BuildRequires:	devel(libglib-2.0)
 BuildRequires:	libgio2.0_0
+BuildRequires:	gio2.0-32
 %endif
 
 
