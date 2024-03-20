@@ -1,5 +1,11 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
 
+%ifarch %{x86_64}
+%bcond_without compat32
+%else
+%bcond_with compat32
+%endif
+
 %define build_bootstrap 0
 %define api 1.0
 %define major 1
@@ -9,7 +15,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.78.1
-Release:	2
+Release:	3
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		http://live.gnome.org/GObjectIntrospection
@@ -56,6 +62,11 @@ BuildRequires:	chrpath
 BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.32.0
 BuildRequires:	gobject-introspection >= 1.32.0-2
 %endif
+
+%if %{with compat32}
+BuildRequires:	devel(libpcre2-8)
+%endif
+
 
 Requires:	%{libname} = %{EVRD}
 Conflicts:	%mklibname girepository 1.0 0 < 0.6.10-5
@@ -339,10 +350,22 @@ a uniform, machine readable format.
 %autosetup -p1
 
 %build
+%if %{with compat32}
+%meson32 \
+	 -Ddoctool=disabled \
+   -Dgtk_doc=true
+
+%ninja_build -C build32
+
+%endif
+
 %meson -Ddoctool=enabled -Dgtk_doc=true -Dpython=%{__python3}
 %meson_build
 
 %install
+%if %{with compat32}
+%ninja_install -C build32
+%endif
 %meson_install
 
 install -D %{SOURCE1} %{buildroot}%{_rpmconfigdir}/gi-find-deps.sh
