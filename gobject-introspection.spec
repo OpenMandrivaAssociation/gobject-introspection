@@ -88,7 +88,7 @@ a uniform, machine readable format.
 Summary:	GObject Introspection interface description for glib
 Group:		System/Libraries
 Conflicts:	%{name} < 1.36.0-2
-Provides:	glib-gir = %{EVRD}
+#Provides:	glib-gir = %{EVRD}
 Requires:	%{name} >= %{EVRD}
 Requires:	glib2
 Requires:	gio2.0
