@@ -87,7 +87,7 @@ a uniform, machine readable format.
 %package -n %{girglibname}
 Summary:	GObject Introspection interface description for glib
 Group:		System/Libraries
-Conflicts:	%{name} < 1.36.0-2
+#Conflicts:	%{name} < 1.36.0-2
 #Provides:	glib-gir = %{EVRD}
 Requires:	%{name} >= %{EVRD}
 Requires:	glib2
