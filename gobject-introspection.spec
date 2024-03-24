@@ -97,10 +97,10 @@ Requires:	gio2.0
 GObject Introspection interface description for glib.
 
 %files -n %{girglibname}
-%{_libdir}/girepository-1.0/GLib-2.0.typelib
-%{_libdir}/girepository-1.0/GModule-2.0.typelib
-%{_libdir}/girepository-1.0/GObject-2.0.typelib
-%{_libdir}/girepository-1.0/Gio-2.0.typelib
+#{_libdir}/girepository-1.0/GLib-2.0.typelib
+#{_libdir}/girepository-1.0/GModule-2.0.typelib
+#{_libdir}/girepository-1.0/GObject-2.0.typelib
+#{_libdir}/girepository-1.0/Gio-2.0.typelib
 
 #---------------------------------------------------------------
 %define girdbusname %mklibname dbus-gir 1.0
