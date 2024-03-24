@@ -383,10 +383,6 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/DBusGLib-1.0.gir
 %{_datadir}/gir-%{api}/GIRepository-2.0.gir
 %{_datadir}/gir-%{api}/GL-1.0.gir
-%{_datadir}/gir-%{api}/GLib-2.0.gir
-%{_datadir}/gir-%{api}/GModule-2.0.gir
-%{_datadir}/gir-%{api}/GObject-2.0.gir
-%{_datadir}/gir-%{api}/Gio-2.0.gir
 %{_datadir}/gir-%{api}/cairo-1.0.gir
 %{_datadir}/gir-%{api}/fontconfig-2.0.gir
 %{_datadir}/gir-%{api}/freetype2-2.0.gir
