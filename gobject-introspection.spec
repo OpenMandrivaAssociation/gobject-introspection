@@ -84,19 +84,19 @@ a uniform, machine readable format.
 #---------------------------------------------------------------
 %define girglibname %mklibname glib-gir 2.0
 
-%package -n %{girglibname}
-Summary:	GObject Introspection interface description for glib
-Group:		System/Libraries
+#package -n %{girglibname}
+#Summary:	GObject Introspection interface description for glib
+#Group:		System/Libraries
 #Conflicts:	%{name} < 1.36.0-2
 #Provides:	glib-gir = %{EVRD}
-Requires:	%{name} >= %{EVRD}
-Requires:	glib2
-Requires:	gio2.0
+#Requires:	%{name} >= %{EVRD}
+#Requires:	glib2
+#Requires:	gio2.0
 
-%description -n %{girglibname}
-GObject Introspection interface description for glib.
+#description -n %{girglibname}
+#GObject Introspection interface description for glib.
 
-%files -n %{girglibname}
+#files -n %{girglibname}
 #{_libdir}/girepository-1.0/GLib-2.0.typelib
 #{_libdir}/girepository-1.0/GModule-2.0.typelib
 #{_libdir}/girepository-1.0/GObject-2.0.typelib
