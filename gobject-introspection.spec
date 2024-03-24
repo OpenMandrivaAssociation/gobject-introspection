@@ -1,6 +1,6 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
 
-%define build_bootstrap 1
+%define build_bootstrap 0
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
