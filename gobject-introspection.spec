@@ -1,6 +1,6 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
 
-%define build_bootstrap 0
+%define build_bootstrap 1
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
@@ -8,12 +8,12 @@
 
 Summary:	GObject Introspection
 Name:		gobject-introspection
-Version:	1.78.1
-Release:	2
+Version:	1.80.0
+Release:	1
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
-Url:		http://live.gnome.org/GObjectIntrospection
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%{url_ver}/%{name}-%{version}.tar.xz
+Url:		https://live.gnome.org/GObjectIntrospection
+Source0:	https://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%{url_ver}/%{name}-%{version}.tar.xz
 # gi-find-deps.sh is a rpm helper for Provides and Requires. Script creates typelib()-style Provides/Requires.
 Source1:	gi-find-deps.sh
 Source2:	typelib.attr
@@ -38,9 +38,9 @@ BuildRequires:	meson
 BuildRequires:	rpm
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(cairo-gobject)
-BuildRequires:	pkgconfig(gio-2.0)
-BuildRequires:	pkgconfig(gio-unix-2.0)
-BuildRequires:	pkgconfig(glib-2.0) >= 2.54.0
+BuildRequires:	pkgconfig(gio-2.0) >= 2.80.0
+BuildRequires:	pkgconfig(gio-unix-2.0) >= 2.80.0
+BuildRequires:	pkgconfig(glib-2.0) >= 2.80.0
 BuildRequires:	pkgconfig(gmodule-2.0)
 BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
@@ -84,23 +84,23 @@ a uniform, machine readable format.
 #---------------------------------------------------------------
 %define girglibname %mklibname glib-gir 2.0
 
-%package -n %{girglibname}
-Summary:	GObject Introspection interface description for glib
-Group:		System/Libraries
-Conflicts:	%{name} < 1.36.0-2
-Provides:	glib-gir = %{EVRD}
-Requires:	%{name} >= %{EVRD}
-Requires:	glib2
-Requires:	gio2.0
+#package -n %{girglibname}
+#Summary:	GObject Introspection interface description for glib
+#Group:		System/Libraries
+#Conflicts:	%{name} < 1.36.0-2
+#Provides:	glib-gir = %{EVRD}
+#Requires:	%{name} >= %{EVRD}
+#Requires:	glib2
+#Requires:	gio2.0
 
-%description -n %{girglibname}
-GObject Introspection interface description for glib.
+#description -n %{girglibname}
+#GObject Introspection interface description for glib.
 
-%files -n %{girglibname}
-%{_libdir}/girepository-1.0/GLib-2.0.typelib
-%{_libdir}/girepository-1.0/GModule-2.0.typelib
-%{_libdir}/girepository-1.0/GObject-2.0.typelib
-%{_libdir}/girepository-1.0/Gio-2.0.typelib
+#files -n %{girglibname}
+#{_libdir}/girepository-1.0/GLib-2.0.typelib
+#{_libdir}/girepository-1.0/GModule-2.0.typelib
+#{_libdir}/girepository-1.0/GObject-2.0.typelib
+#{_libdir}/girepository-1.0/Gio-2.0.typelib
 
 #---------------------------------------------------------------
 %define girdbusname %mklibname dbus-gir 1.0
@@ -315,7 +315,7 @@ Provides:	libgirepository-devel = %{EVRD}
 Provides:	girepository-devel = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Requires:	%{libname} = %{EVRD}
-Requires:	%{girglibname} = %{EVRD}
+#Requires:	%{girglibname} = %{EVRD}
 Requires:	%{girdbusname} = %{EVRD}
 Requires:	%{girdbusglibname} = %{EVRD}
 Requires:	%{girgirepositoryname} = %{EVRD}
@@ -361,7 +361,7 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-generate
 chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 
 %files
-%doc NEWS TODO
+%doc NEWS
 %dir %{_libdir}/girepository-%{api}
 
 %files -n %{libname}
@@ -383,10 +383,6 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/gir-%{api}/DBusGLib-1.0.gir
 %{_datadir}/gir-%{api}/GIRepository-2.0.gir
 %{_datadir}/gir-%{api}/GL-1.0.gir
-%{_datadir}/gir-%{api}/GLib-2.0.gir
-%{_datadir}/gir-%{api}/GModule-2.0.gir
-%{_datadir}/gir-%{api}/GObject-2.0.gir
-%{_datadir}/gir-%{api}/Gio-2.0.gir
 %{_datadir}/gir-%{api}/cairo-1.0.gir
 %{_datadir}/gir-%{api}/fontconfig-2.0.gir
 %{_datadir}/gir-%{api}/freetype2-2.0.gir
