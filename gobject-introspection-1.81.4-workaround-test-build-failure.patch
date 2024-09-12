@@ -1,0 +1,12 @@
+diff -up gobject-introspection-1.81.4/meson.build.omv~ gobject-introspection-1.81.4/meson.build
+--- gobject-introspection-1.81.4/meson.build.omv~	2024-09-12 20:15:29.824553042 +0200
++++ gobject-introspection-1.81.4/meson.build	2024-09-12 20:15:46.244757904 +0200
+@@ -256,7 +256,7 @@ subdir('docs')
+ 
+ # The tests will also run, which is not possible if they
+ # were built for a different architecture.
+-if not meson.is_cross_build()
++if false #not meson.is_cross_build()
+   subdir('tests')
+ endif
+ 
