@@ -24,7 +24,7 @@ Patch2:		python3-linking.patch
 # the tests because stupid g-ir-scanner falls over valid code in glibc 2.40
 # system headers.
 # This should really be fixed properly.
-Patch3:		gobject-introspection-1.81.4-workaround-test-build-failure.patch
+#Patch3:		gobject-introspection-1.81.4-workaround-test-build-failure.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
