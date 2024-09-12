@@ -330,6 +330,8 @@ a uniform, machine readable format.
 %autosetup -p1
 
 %build
+export CC=gcc
+export CXX=g++
 %meson -Ddoctool=enabled -Dgtk_doc=true -Dpython=%{__python3}
 %meson_build
 
