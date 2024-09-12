@@ -20,15 +20,6 @@ Source2:	typelib.attr
 Source3:	gobject-introspection-typelib.template
 #Patch1:		gobject-introspection-1.54.1-lto.patch
 Patch2:		python3-linking.patch
-# Symptom:
-#	https://github.com/pypa/setuptools/issues/3532
-# Cause:
-#	gcrackpots check for MSVC even on a real OS
-# Real fix:
-#	Drop gcrap
-# Less radical fix:
-#	Remove MSVC checks
-Patch3:		gobject-introspection-msvc-is-for-crackpots.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
