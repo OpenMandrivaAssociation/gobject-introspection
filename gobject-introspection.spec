@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.82.0
-Release:	1
+Release:	2
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		https://live.gnome.org/GObjectIntrospection
@@ -25,6 +25,7 @@ Patch2:		python3-linking.patch
 # system headers.
 # This should really be fixed properly.
 #Patch3:		gobject-introspection-1.81.4-workaround-test-build-failure.patch
+Patch4:		gobject-introspection-clang19.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -335,8 +336,6 @@ a uniform, machine readable format.
 %autosetup -p1
 
 %build
-export CC=gcc
-export CXX=g++
 %meson -Ddoctool=enabled -Dgtk_doc=true -Dpython=%{__python3}
 %meson_build
 

@@ -1,0 +1,34 @@
+diff -up gobject-introspection-1.82.0/giscanner/scannerlexer.l.omv~ gobject-introspection-1.82.0/giscanner/scannerlexer.l
+--- gobject-introspection-1.82.0/giscanner/scannerlexer.l.omv~	2025-02-08 13:47:13.729299693 +0100
++++ gobject-introspection-1.82.0/giscanner/scannerlexer.l	2025-02-08 13:51:10.853754381 +0100
+@@ -209,6 +209,7 @@ stringtext				([^\\\"])|(\\.)
+ "break"					{ return BREAK; }
+ "case"					{ return CASE; }
+ "char"					{ return BASIC_TYPE; }
++"_Complex"				{ return COMPLEX; }
+ "const"					{ return CONST; }
+ "continue"				{ return CONTINUE; }
+ "default"				{ return DEFAULT; }
+diff -up gobject-introspection-1.82.0/giscanner/scannerparser.y.omv~ gobject-introspection-1.82.0/giscanner/scannerparser.y
+--- gobject-introspection-1.82.0/giscanner/scannerparser.y.omv~	2025-02-08 13:49:26.036006427 +0100
++++ gobject-introspection-1.82.0/giscanner/scannerparser.y	2025-02-08 13:50:27.879393181 +0100
+@@ -275,7 +275,7 @@ set_or_merge_base_type (GISourceType *ty
+ %token ELLIPSIS ADDEQ SUBEQ MULEQ DIVEQ MODEQ XOREQ ANDEQ OREQ SL SR
+ %token SLEQ SREQ EQ NOTEQ LTEQ GTEQ ANDAND OROR PLUSPLUS MINUSMINUS ARROW
+ 
+-%token AUTO BREAK CASE CONST CONTINUE DEFAULT DO ELSE ENUM
++%token AUTO BREAK CASE COMPLEX CONST CONTINUE DEFAULT DO ELSE ENUM
+ %token EXTENSION EXTERN FOR GOTO IF INLINE REGISTER RESTRICT
+ %token RETURN SHORT SIGNED SIZEOF STATIC STRUCT SWITCH THREAD_LOCAL TYPEDEF
+ %token UNION UNSIGNED VOID VOLATILE WHILE
+@@ -907,6 +907,10 @@ type_specifier
+ 	  {
+ 		$$ = gi_source_type_new (CTYPE_VOID);
+ 	  }
++	| COMPLEX
++	  {
++		$$ = gi_source_basic_type_new ("_Complex");
++	  }
+ 	| SIGNED
+ 	  {
+ 		$$ = gi_source_basic_type_new ("signed");
