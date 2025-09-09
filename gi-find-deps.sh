@@ -20,8 +20,15 @@ fi
 }
 
 function split_name_version2 {
-  symbol=$(echo $1 | awk -F: '{print $1}' | sed "s:[' ]::g")
+  symbol=$(echo $1 | awk -F: '{sub(/^.*{/, "", $1); print $1}' | sed "s:[' ]::g")
   version=$(echo $1 | awk -F: '{print $2}' | sed "s:[' ]::g")
+}
+
+# some javascript code imports gi like this (seen since GNOME 43, e.g. GNOME Maps)
+# import 'gi://GeocodeGlib?version=2.0'
+function split_name_versionjs_gi_name_version {
+  symbol=$(echo $1 | awk -F? '{print $1}')
+  version=$(echo $1 | awk -F? '/version=/ {print $2}' | sed 's/version=//')
 }
 
 function print_req_prov {
@@ -93,6 +100,12 @@ function javascript_requires {
 		split_name_version $module
 		print_req_prov
 	done
+  # some javascript code imports gi like this (seen since GNOME 43, e.g. GNOME Maps)
+  # import 'gi://GeocodeGlib?version=2.0'
+        for module in $(grep -h -P -o "['\"]gi://([^'\"]+)" $1 | sed "s|['\"]gi://||"); do
+                split_name_versionjs_gi_name_version $module
+                print_req_prov
+        done
     # This is, at the moment, specifically for Polari where a "const { Foo, Bar } = imports.gi;" is used.
 	for module in $(grep -h -E -o "\{ \w+(: \w+|, \w+)+ \} = imports.gi;" $1 | \
         sed -r -e '0,/\w+:\s\w+/ s/:\s\w+//g' -e 's: = imports.gi;:: ; s:\{ :: ; s: \}:: ; s/,//g'); do
@@ -136,7 +149,7 @@ oldIFS=$IFS
 IFS=:
 for file in "$jspkg"; do
 	IFS=$'\n'
-	PKGS=$(pcre2grep -M "pkg.require\\(([^;])*" $file | grep -o "'.*': '.*'")
+	PKGS=$(pcre2grep -M "pkg.require\\(([^;])*" $file | grep -o -E "'?.*'?: '.*'")
 	for pkg in $PKGS; do
 		split_name_version2 $pkg
 		found=0
@@ -209,6 +222,9 @@ while read file; do
 				*[Pp]ython*script*)
 					python_requires "$file"
 					;;
+				*JavaScript*source*)
+		                        javascript_requires "$file"
+					;;
 				*ELF*)
 					gresources_requires "$file"
 					;;
@@ -233,12 +249,13 @@ function inList() {
   return 1
 }
 
-x64bitarch="x86_64 ppc64 ppc64le s390x ia64 aarch64 riscv64"
+# Confer with /usr/lib/rpm/platforms
+x64bitarch="aarch64 loongarch64 mips64 mips64el mips64r6 mips64r6el ppc64 ppc64le riscv64 s390x sparc64 x86_64"
 
 for path in \
 	$(for tlpath in \
 	$(find ${RPM_BUILD_ROOT}/usr/lib64 ${RPM_BUILD_ROOT}/usr/lib /usr/lib64 /usr/lib -name '*.typelib' 2>/dev/null); do
-		dirname $tlpath; done | sort --unique ); do
+               dirname $tlpath; done | sort --unique ); do
 	export GI_TYPELIB_PATH=$GI_TYPELIB_PATH:$path
 done
 
@@ -259,4 +276,3 @@ case $1 in
 		find_requires
 		;;
 esac
-
