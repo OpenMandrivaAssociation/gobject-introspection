@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python-mako
 BuildRequires:	python-markdown
+BuildRequires:  python-setuptools
 BuildRequires:	docbook-dtd-xml
 BuildRequires:	gtk-doc
 BuildRequires:	chrpath
