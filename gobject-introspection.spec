@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.86.0
-Release:	4
+Release:	5
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		https://live.gnome.org/GObjectIntrospection
@@ -309,7 +309,8 @@ Requires:	libtool
 # gi-find-deps.sh uses pcre2grep
 Requires:	pcre2
 Requires:	file
-Requires:	pkgconfig(python)
+Requires:	python
+Requires:	python%{pyver}dist(setuptools)
 Provides:	libgirepository-devel = %{EVRD}
 Provides:	girepository-devel = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
