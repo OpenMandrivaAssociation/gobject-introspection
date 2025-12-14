@@ -1,0 +1,134 @@
+diff -up gobject-introspection-1.86.0/giscanner/ccompiler.py.2~ gobject-introspection-1.86.0/giscanner/ccompiler.py
+--- gobject-introspection-1.86.0/giscanner/ccompiler.py.2~	2025-09-13 12:08:06.000000000 +0100
++++ gobject-introspection-1.86.0/giscanner/ccompiler.py	2025-12-13 23:58:21.250129290 +0000
+@@ -21,15 +21,16 @@
+ import os
+ import shlex
+ import subprocess
++import sysconfig
+ import tempfile
+ 
+ import sys
+-import distutils
++import setuptools._distutils
+ 
+-from distutils.unixccompiler import UnixCCompiler
+-from distutils.cygwinccompiler import Mingw32CCompiler
+-from distutils.sysconfig import get_config_vars
+-from distutils.sysconfig import customize_compiler as orig_customize_compiler
++from setuptools._distutils.unixccompiler import UnixCCompiler
++from setuptools._distutils.cygwinccompiler import Mingw32CCompiler
++from sysconfig import get_config_vars
++from setuptools._distutils.sysconfig import customize_compiler as orig_customize_compiler
+ 
+ from . import utils
+ 
+@@ -54,7 +55,7 @@ def customize_compiler(compiler):
+     # The original customize_compiler() in distutils calls into macOS setup
+     # code the first time it is called. This makes sure we run that setup
+     # code as well.
+-    dummy = distutils.ccompiler.new_compiler()
++    dummy = setuptools._distutils.ccompiler.new_compiler()
+     orig_customize_compiler(dummy)
+ 
+     if compiler.compiler_type == "unix":
+@@ -165,7 +166,7 @@ class CCompiler(object):
+                 if mingw.startswith(('MINGW', 'CLANG', 'UCRT')) and environ.get('VCINSTALLDIR') is None:
+                     compiler_name = 'mingw32'
+                 else:
+-                    compiler_name = distutils.ccompiler.get_default_compiler()
++                    compiler_name = setuptools._distutils.ccompiler.get_default_compiler()
+             if compiler_name != 'msvc' and \
+                compiler_name != 'mingw32':
+                 raise SystemExit('Specified Compiler \'%s\' is unsupported.' % compiler_name)
+@@ -173,7 +174,7 @@ class CCompiler(object):
+             if compiler_name is None:
+                 # XXX: Is it common practice to use a non-Unix compiler
+                 #      class instance on non-Windows on platforms g-i supports?
+-                compiler_name = distutils.ccompiler.get_default_compiler()
++                compiler_name = setuptools._distutils.ccompiler.get_default_compiler()
+ 
+         # Now, create the distutils ccompiler instance based on the info we have.
+         if compiler_name == 'msvc':
+@@ -183,7 +184,7 @@ class CCompiler(object):
+             from . import msvccompiler
+             self.compiler = msvccompiler.get_msvc_compiler()
+         else:
+-            self.compiler = distutils.ccompiler.new_compiler(compiler=compiler_name)
++            self.compiler = setuptools._distutils.ccompiler.new_compiler(compiler=compiler_name)
+         customize_compiler(self.compiler)
+ 
+         # customize_compiler() from distutils only does customization
+diff -up gobject-introspection-1.86.0/giscanner/msvccompiler.py.2~ gobject-introspection-1.86.0/giscanner/msvccompiler.py
+--- gobject-introspection-1.86.0/giscanner/msvccompiler.py.2~	2025-09-13 12:08:06.000000000 +0100
++++ gobject-introspection-1.86.0/giscanner/msvccompiler.py	2025-12-13 23:56:53.163441939 +0000
+@@ -21,9 +21,9 @@
+ import os
+ from typing import Type
+ 
+-from distutils.errors import DistutilsExecError, CompileError
+-from distutils.ccompiler import CCompiler, gen_preprocess_options, new_compiler
+-from distutils.dep_util import newer
++from setuptools._distutils.errors import DistutilsExecError, CompileError
++from setuptools._distutils.ccompiler import CCompiler, gen_preprocess_options, new_compiler
++from setuptools._distutils.dep_util import newer
+ 
+ # Distutil's MSVCCompiler does not provide a preprocess()
+ # Implementation, so do our own here.
+diff -up gobject-introspection-1.86.0/giscanner/scannermain.py.2~ gobject-introspection-1.86.0/giscanner/scannermain.py
+--- gobject-introspection-1.86.0/giscanner/scannermain.py.2~	2025-09-13 12:08:06.000000000 +0100
++++ gobject-introspection-1.86.0/giscanner/scannermain.py	2025-12-13 23:56:53.163506972 +0000
+@@ -605,8 +605,8 @@ def scanner_main(args):
+     (options, args) = parser.parse_args(args)
+ 
+     if options.verbose:
+-        import distutils
+-        distutils.log.set_threshold(distutils.log.DEBUG)
++        import logging
++        logging.basicConfig(level=logging.DEBUG)
+     if options.passthrough_gir:
+         passthrough_gir(options.passthrough_gir, sys.stdout)
+     if options.test_codegen:
+diff -up gobject-introspection-1.86.0/giscanner/utils.py.2~ gobject-introspection-1.86.0/giscanner/utils.py
+--- gobject-introspection-1.86.0/giscanner/utils.py.2~	2025-09-13 12:08:06.000000000 +0100
++++ gobject-introspection-1.86.0/giscanner/utils.py	2025-12-13 23:56:53.163571764 +0000
+@@ -382,6 +382,6 @@ def get_msvcr_overwrite():
+             return ['vcruntime140']
+ 
+ 
+-import distutils.cygwinccompiler
+-orig_get_msvcr = distutils.cygwinccompiler.get_msvcr  # type: ignore
+-distutils.cygwinccompiler.get_msvcr = get_msvcr_overwrite  # type: ignore
++import setuptools._distutils.cygwinccompiler
++orig_get_msvcr = setuptools._distutils.cygwinccompiler.get_msvcr  # type: ignore
++setuptools._distutils.cygwinccompiler.get_msvcr = get_msvcr_overwrite  # type: ignore
+diff -up gobject-introspection-1.86.0/tests/scanner/test_ccompiler.py.2~ gobject-introspection-1.86.0/tests/scanner/test_ccompiler.py
+--- gobject-introspection-1.86.0/tests/scanner/test_ccompiler.py.2~	2025-09-13 12:08:06.000000000 +0100
++++ gobject-introspection-1.86.0/tests/scanner/test_ccompiler.py	2025-12-13 23:56:53.163634663 +0000
+@@ -15,7 +15,7 @@
+ # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ # Boston, MA 02111-1307, USA.
+ 
+-import distutils
++import setuptools._distutils
+ import os
+ import shlex
+ import unittest
+@@ -82,7 +82,7 @@ class UnixCCompilerTest(unittest.TestCas
+         except ImportError as e:
+             raise unittest.SkipTest(e)
+ 
+-        with patch.object(distutils.ccompiler.CCompiler, 'spawn') as spawn:
++        with patch.object(setuptools._distutils.ccompiler.CCompiler, 'spawn') as spawn:
+             with Environ(environ):
+                 cc = CCompiler(compiler_name=compiler_name)
+                 # Avoid check if target is newer from source.
+@@ -103,7 +103,7 @@ class UnixCCompilerTest(unittest.TestCas
+         except ImportError as e:
+             raise unittest.SkipTest(e)
+ 
+-        with patch.object(distutils.ccompiler.CCompiler, 'spawn') as spawn:
++        with patch.object(setuptools._distutils.ccompiler.CCompiler, 'spawn') as spawn:
+             with Environ(environ):
+                 cc = CCompiler(compiler_name=compiler_name)
+                 # Avoid check if target is newer from source.

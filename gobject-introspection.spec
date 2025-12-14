@@ -26,6 +26,7 @@ Patch2:		python3-linking.patch
 # This should really be fixed properly.
 #Patch3:		gobject-introspection-1.81.4-workaround-test-build-failure.patch
 #Patch4:		gobject-introspection-clang19.patch
+Patch5:		gobject-introspection-python-3.14.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
