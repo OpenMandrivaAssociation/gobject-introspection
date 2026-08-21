@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.86.0
-Release:	6
+Release:	7
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		https://live.gnome.org/GObjectIntrospection
@@ -339,7 +339,48 @@ a uniform, machine readable format.
 %autosetup -p1
 
 %build
+%if %{cross_compiling}
+# Host g-ir-scanner; meson still needs to run target dump binaries.
+# Host ldd cannot read foreign ELF. qemu-user has no ld.so.cache in
+# the sysroot, so dump binaries need an explicit library path.
+# gi-ldd prints host-absolute paths so g-ir-scanner can open them.
+_sys=%{_prefix}/%{_target_platform}
+case %{_target_cpu} in
+x86_64|amd64|znver*) _qemu=qemu-x86_64 ;;
+i?86|pentium*|athlon) _qemu=qemu-i386 ;;
+ppc64le) _qemu=qemu-ppc64le ;;
+*) _qemu=qemu-%{_target_cpu} ;;
+esac
+_ldso=
+for _d in $_sys/lib $_sys/lib64 $_sys/usr/lib $_sys/usr/lib64; do
+	for _f in "$_d"/ld-linux*.so.* "$_d"/ld64.so.* "$_d"/ld-musl-*.so.*; do
+		[ -e "$_f" ] || continue
+		_ldso=$_f
+		break 2
+	done
+done
+[ -n "$_ldso" ] || { echo "No target dynamic linker in $_sys" >&2; exit 1; }
+[ -x /usr/bin/$_qemu ] || { echo "Missing /usr/bin/$_qemu" >&2; exit 1; }
+cat > gi-ldd << EOF
+#!/bin/sh
+export QEMU_LD_PREFIX=$_sys
+exec /usr/bin/$_qemu -L $_sys $_ldso --library-path $_sys/usr/%{_lib}:$_sys/%{_lib} --list "\$@"
+EOF
+cat > gi-run << EOF
+#!/bin/sh
+export QEMU_LD_PREFIX=$_sys
+export LD_LIBRARY_PATH=$_sys/usr/%{_lib}:$_sys/%{_lib}:\${LD_LIBRARY_PATH}
+exec /usr/bin/$_qemu -L $_sys "\$@"
+EOF
+chmod +x gi-ldd gi-run
+cat > gi-exe-wrapper.ini << EOF
+[binaries]
+exe_wrapper = ['$PWD/gi-run']
+EOF
+%meson -Ddoctool=disabled -Dgtk_doc=false -Dpython=%{__python3} -Dgi_cross_use_prebuilt_gi=true -Dgi_cross_binary_wrapper=$PWD/gi-run -Dgi_cross_ldd_wrapper=$PWD/gi-ldd -Dgi_cross_pkgconfig_sysroot_path=$_sys --cross-file=$PWD/gi-exe-wrapper.ini
+%else
 %meson -Ddoctool=enabled -Dgtk_doc=true -Dpython=%{__python3}
+%endif
 %meson_build
 
 %install
@@ -376,7 +417,9 @@ chrpath --delete %{buildroot}%{_bindir}/g-ir-inspect
 %{_datadir}/%{name}-%{api}
 %{_bindir}/g-ir-*
 %{_libdir}/%{name}
+%if !%{cross_compiling}
 %{_datadir}/gtk-doc/html/gi
+%endif
 %dir %{_datadir}/gir-%{api}
 %{_datadir}/gir-%{api}/gir-1.2.rnc
 %{_datadir}/gir-%{api}/DBus-1.0.gir
