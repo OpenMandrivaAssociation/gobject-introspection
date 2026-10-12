@@ -1,6 +1,6 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
 
-%define build_bootstrap 0
+%define build_bootstrap 1
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.86.0
-Release:	8
+Release:	9
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		https://live.gnome.org/GObjectIntrospection
@@ -44,9 +44,12 @@ BuildRequires:	pkgconfig(gobject-2.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(python)
-BuildRequires:	python-mako
-BuildRequires:	python-markdown
-BuildRequires:  python-setuptools
+BuildRequires:	python%{pyver}dist(mako)
+BuildRequires:	python%{pyver}dist(markdown)
+BuildRequires:	python%{pyver}dist(setuptools)
+# The split capture library satisfies glib-devel. The old lib64sysprof-devel
+# package pulls libdex, which still requires Python 3.14.
+BuildRequires:	sysprof-capture
 BuildRequires:	docbook-dtd-xml
 BuildRequires:	gtk-doc
 BuildRequires:	chrpath
