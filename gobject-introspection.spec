@@ -9,7 +9,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.86.0
-Release:	9
+Release:	10
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		https://live.gnome.org/GObjectIntrospection
@@ -340,6 +340,9 @@ a uniform, machine readable format.
 
 %prep
 %autosetup -p1
+# Clang 23's C23 mode emits "typedef typeof(nullptr) nullptr_t", which the
+# scanner grammar rejects. Defining the header guard skips that typedef.
+sed -i "s/defines = \['__GI_SCANNER__'\]/defines = ['__GI_SCANNER__', '_NULLPTR_T']/" giscanner/sourcescanner.py
 
 %build
 %if %{cross_compiling}
