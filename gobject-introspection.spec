@@ -1,6 +1,13 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
 
-%define build_bootstrap 1
+# The dependency generator lives in gobject-introspection-devel. It must run
+# while this package is built, so each gir subpackage provides typelib() for
+# the file it ships. Bootstrap mode skips that and pastes the whole
+# typelib() list onto the main package, which only owns the directory.
+# dnf then satisfies typelib(cairo) and the rest without installing the
+# typelibs. Gtk's typelib fails to load, and blueprint-compiler reports
+# that as a missing Gtk-4.0 namespace (gnome-calendar 51).
+%define build_bootstrap 0
 %define api 1.0
 %define major 1
 %define libname %mklibname girepository %{api} %{major}
@@ -9,7 +16,7 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.86.0
-Release:	11
+Release:	12
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		https://live.gnome.org/GObjectIntrospection
