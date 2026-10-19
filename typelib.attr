@@ -1,4 +1,8 @@
-%__typelib_provides		%{_rpmconfigdir}/gi-find-deps.sh -P
-%__typelib_requires		%{_rpmconfigdir}/gi-find-deps.sh -R
+# multifile: one invocation per package. -M prints ";path" markers.
+# The default singlefile protocol forked this script once per file, and
+# every fork walked /usr/lib looking for typelibs.
+%__typelib_provides		%{_rpmconfigdir}/gi-find-deps.sh -P -M
+%__typelib_requires		%{_rpmconfigdir}/gi-find-deps.sh -R -M
+%__typelib_protocol		multifile
 %__typelib_path			^%{_libdir}/.*\\.typelib$|^%{_bindir}/|\\.(gresource|py|js|so|so\\.[^/]*)$
 %__typelib_exclude_path		^%{_docdir}/packages/

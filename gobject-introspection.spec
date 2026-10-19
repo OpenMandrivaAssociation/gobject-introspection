@@ -9,12 +9,13 @@
 Summary:	GObject Introspection
 Name:		gobject-introspection
 Version:	1.86.0
-Release:	10
+Release:	11
 License:	GPLv2+, LGPLv2+, MIT
 Group:		Development/C
 Url:		https://live.gnome.org/GObjectIntrospection
 Source0:	https://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%{url_ver}/%{name}-%{version}.tar.xz
 # gi-find-deps.sh is a rpm helper for Provides and Requires. Script creates typelib()-style Provides/Requires.
+# Multifile generator. It must stay cheap for packages that do not use GObject.
 Source1:	gi-find-deps.sh
 Source2:	typelib.attr
 Source3:	gobject-introspection-typelib.template
